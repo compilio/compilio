@@ -1,2 +1,2 @@
 django-libsass
-django_compressor
+django-compressor
