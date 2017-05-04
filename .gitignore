@@ -1,4 +1,4 @@
 __pycache__/
 *.sqlite3
 .idea/
-static/CACHE/*
+node_modules/

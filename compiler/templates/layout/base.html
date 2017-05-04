@@ -7,15 +7,18 @@
     <title>Compilio</title>
     <meta name="description" content="An online command line or drag and drop compiler" />
 
-    {% load compress %}
     {% load static %}
 
-    {% compress css %}
-        <link rel="stylesheet" type="text/x-scss" href="{% static "scss/global.scss" %}" />
-    {% endcompress %}
+    <link type="text/css" href="{% static "css/style.css" %}" rel="stylesheet" />
+    <script type="text/javascript" src="{% static "js/main.js" %}"></script>
 </head>
 
 <body>
-    {% block body %}{% endblock %}
+    <div class="container">
+        <header>
+            <h1>Compilio</h1>
+        </header>
+        {% block body %}{% endblock %}
+    </div>
 </body>
 </html>
