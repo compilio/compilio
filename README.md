@@ -16,7 +16,7 @@ To install the project and start the deployment environment, you need the follow
 Then, run the following commands:
 
 ```sh
-pip install Django
+pip install -r requirements.txt
 npm install
 ```
 
