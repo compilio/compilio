@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
 
-    <title>Compilio</title>
+    <title>{% block title %}Compilio{% endblock %}</title>
     <meta name="description" content="An online command line or drag and drop compiler" />
 
     {% load static %}
@@ -14,12 +14,11 @@
 </head>
 
 <body>
-    <div class="container">
-        <header>
-            <h1>Compilio</h1>
-        </header>
-        {% block body %}{% endblock %}
+    {% include '_layout/header.html' %}
+    {% block intro %}{% endblock %}
+    <main class="container">
         {% block content %}{% endblock %}
-    </div>
+    </main>
+   {% include '_layout/footer.html' %}
 </body>
 </html>

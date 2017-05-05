@@ -1,0 +1,29 @@
+<header class="main-header">
+    <div class="container">
+        <h1><a href="{% url 'index' %}">Compilio</a></h1>
+
+        <nav class="main-menu">
+            <ul>
+                <li>
+                    <a href="{% url 'index' %}" class="{% if request.resolver_match.url_name == 'index'  %}active{% endif %}">
+                        <i class="fa fa-rocket"></i> Compile
+                    </a>
+                </li>
+                <li>
+                    <a href="{% url 'login' %}" class="{% if request.resolver_match.url_name == 'login'  %}active{% endif %}">
+                        <i class="fa fa-user"></i> My files
+                    </a>
+                </li>
+                <li>
+                    <a href="#"><i class="fa fa-book"></i> Documentation</a>
+                </li>
+                <li>
+                    <a href="{% url 'index' %}#about"><i class="fa fa-info-circle"></i> About</a>
+                </li>
+                <li>
+                    <a href="#"><i class="fa fa-github"></i> Contribute</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+</header>

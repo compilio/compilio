@@ -1,12 +1,28 @@
-{% extends 'layout/base.html' %}
+{% extends '_layout/base.html' %}
 
-{% block title %}Login{% endblock %}
+{% block title %}Login to Compilio{% endblock %}
+
+{% block intro %}
+    <div class="main-intro">
+        <div class="container">
+            <h2>Login to Compilio</h2>
+            <p>
+                Login to your Compilio account to get your recent compiled files.
+            </p>
+        </div>
+    </div>
+{% endblock %}
 
 {% block content %}
-  <h2>Login</h2>
-  <form method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Login</button>
-  </form>
+    <div class="card">
+        <div class="row card-container">
+            <div class="col-lg-12">
+                <form method="post">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    <p><button type="submit">Login</button></p>
+                </form>
+            </div>
+        </div>
+    </div>
 {% endblock %}

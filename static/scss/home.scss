@@ -1,0 +1,48 @@
+div.drag-drop {
+  border-right: 1px solid $global-light-color;
+  padding-bottom: 10px;
+
+  div.drop-area {
+    border: 2px dashed $global-light-color;
+    height: 150px;
+    text-align: center;
+    padding-top: 60px;
+    border-radius: 2px;
+
+    &:after {
+      content: 'Drop your files here';
+      color: $global-light-color;
+      font-size: 1.4em;
+      font-weight: bold;
+    }
+  }
+}
+
+div.terminal {
+  padding: 1px 15px;
+  border-radius: 2px;
+  background: #393939;
+  color: white;
+  font-family: monospace;
+
+  span.comment {
+    opacity: 0.7;
+  }
+}
+
+div.compiler-list {
+  text-align: center;
+
+  div.compiler {
+    a {
+      border-radius: 4px;
+      display: block;
+      padding: 3px;
+      background: $global-light-color;
+
+      &:hover {
+        background: darken($global-light-color, 3%);
+      }
+    }
+  }
+}

@@ -1,0 +1,58 @@
+header.main-header {
+  background: $global-primary-color;
+  width: 100%;
+  min-height:100px;
+  padding: 5px 0 0;
+  color: white;
+
+  h1 {
+    a {
+      color: white;
+    }
+
+    display: inline-block;
+    font-weight: bold;
+    font-family: "Comfortaa Bold", Arial, Helvetica, sans-serif;
+    margin: 33px 0 0;
+  }
+
+  nav.main-menu {
+    display: inline-block;
+    float: right;
+    font-size: 1.1em;
+
+    ul {
+      list-style-type: none;
+      line-height: 3em;
+
+      li {
+        display: inline-block;
+        margin: 0 10px;
+
+        a {
+          color: white;
+          padding: 5px 7px;
+          border-radius: 2px;
+
+          &.active {
+            background: rgba(255, 255, 255, 0.07);
+          }
+        }
+      }
+    }
+  }
+}
+
+div.main-intro {
+  background: $global-secondary-color;
+  padding: 10px 0 100px;
+  color: white;
+
+  h2 {
+    color: white;
+  }
+
+  p {
+    font-size: 1.15em;
+  }
+}

@@ -41,7 +41,8 @@ export default {
     new ExtractTextPlugin('css/style.css')
   ],
   devServer: {
-    contentBase: path.join(__dirname, '/static/assets/')
+    contentBase: path.join(__dirname, '/static/assets/'),
+    headers: { "Access-Control-Allow-Origin": "*" }
   },
   devtool: prod ? false : '#inline-source-map'
 }
