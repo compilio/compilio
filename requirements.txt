@@ -1,2 +1,2 @@
-django
-
+Django==1.11
+Unipath==1.1

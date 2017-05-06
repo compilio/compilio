@@ -5,11 +5,11 @@ import path from 'path'
 
 export default {
   entry: {
-    main: path.join(__dirname, '/static/js/main.js')
+    main: path.join(__dirname, '/compilio/static/js/main.js')
   },
   output: {
     filename: 'js/[name].js',
-    path: path.join(__dirname, '/static/assets/'),
+    path: path.join(__dirname, '/compilio/static/assets/'),
     publicPath: '/assets/'
   },
   module: {
