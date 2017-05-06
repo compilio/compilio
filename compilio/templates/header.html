@@ -10,9 +10,15 @@
                     </a>
                 </li>
                 <li>
-                    <a href="{% url 'login' %}" class="{% if request.resolver_match.url_name == 'login'  %}active{% endif %}">
-                        <i class="fa fa-user"></i> My files
-                    </a>
+                    {% if request.user.is_authenticated %}
+                        <a href="{% url 'tasks' %}" class="{% if request.resolver_match.url_name == 'tasks'  %}active{% endif %}">
+                            <i class="fa fa-user"></i> My tasks
+                        </a>
+                    {% else %}
+                        <a href="{% url 'login' %}" class="{% if request.resolver_match.url_name == 'login'  %}active{% endif %}">
+                            <i class="fa fa-user"></i> My tasks
+                        </a>
+                    {% endif %}
                 </li>
                 <li>
                     <a href="#"><i class="fa fa-book"></i> Documentation</a>

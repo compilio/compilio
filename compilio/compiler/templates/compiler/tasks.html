@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block title %}Compilio &middot; The online compiler{% endblock %}
+
+{% block intro %}
+    <div class="main-intro">
+        <div class="container">
+            <h2>My tasks</h2>
+        </div>
+    </div>
+{% endblock %}
+
+{% block content %}
+    <a href="{% url 'logout' %}">Log out</a>
+{% endblock %}
