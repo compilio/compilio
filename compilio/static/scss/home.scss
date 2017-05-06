@@ -25,6 +25,10 @@ div.terminal {
   color: white;
   font-family: monospace;
 
+  span.line::before {
+    content: '$ ';
+  }
+
   span.comment {
     opacity: 0.7;
   }
