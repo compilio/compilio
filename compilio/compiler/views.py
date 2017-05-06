@@ -1,5 +1,5 @@
-from django.shortcuts import render, redirect
 from django.conf import settings
+from django.shortcuts import render, redirect
 
 
 def index(request):
