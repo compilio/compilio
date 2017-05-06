@@ -1,3 +1,5 @@
+import datetime
+
 from django.db import models
 
 
@@ -17,9 +19,9 @@ class Task(models.Model):
     command = models.CharField(max_length=128)
     url = models.CharField(max_length=128)
 
-    submitted_date = models.DateField()
-    terminated_date = models.DateField()
-    expiry_date = models.DateField()
+    submitted_date = models.DateField(default=datetime.datetime.now)
+    terminated_date = models.DateField(default=datetime.datetime.now)
+    expiry_date = models.DateField(default=datetime.datetime.now)
 
     TASK_STATUS = (
         ('Pending', 'Pending'),
@@ -49,8 +51,8 @@ class ServerCompiler(models.Model):
     compiler = models.ForeignKey(Compiler)
     server = models.ForeignKey(Server)
 
-    last_used_date = models.DateField()
-    last_check = models.DateField()
+    last_used_date = models.DateField(default=datetime.datetime.now)
+    last_check = models.DateField(default=datetime.datetime.now)
 
     COMPILER_STATUS = (
         ('Alive', 'Alive'),
