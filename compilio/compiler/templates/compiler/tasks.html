@@ -16,8 +16,22 @@
 {% block content %}
     <div class="card">
         <div class="row card-container">
-            <h3>Hello {{ request.user.username }}!</h3>
-            <p><a href="{% url 'logout' %}" class="button">Log out</a></p>
+            <div class="col-lg-12">
+                {% if not request.user.is_authenticated %}
+                    <h3>Hello there!</h3>
+                    <p>
+                        You are not authenticated. You can <a href="#" class="button button-small">create an account</a> or
+                        <a href="{% url 'login' %}">login</a> if you want to save your compilations to download your files
+                        later.
+                    </p>
+                {% else %}
+                    <p class="pull-right"><a href="{% url 'logout' %}" class="button"><i class="fa fa-sign-out"></i> Log out</a></p>
+                    <h3>Hello {{ request.user.username }}!</h3>
+                    <p>
+                        You are authenticated. You don't have reach the storage limit.
+                    </p>
+                {% endif %}
+            </div>
         </div>
     </div>
 
@@ -29,60 +43,8 @@
                 <div class="col-md-3">Compiled 3 months ago</div>
                 <div class="col-md-3"><i class="fa fa-cloud-download"></i> Download compiled files</div>
                 <div class="col-md-2">
-                    <a href="#" class="button button-small">Open</a>
+                    <a href="{% url 'task' 1 %}" class="button button-small">Open</a>
                     <a href="#" class="button button-small button-warning">Remove</a>
-                </div>
-            </div>
-            <div class="row card-container task-detail">
-                <div class="col-lg-12">
-                    <p>The script <span class="label">pdflatex -output-directory build cv_en.tex</span> was executed.</p>
-                    <h4>Files</h4>
-                </div>
-                <div class="col-md-6">
-                    <p>These files were produced by the compilation script:</p>
-                    <ul>
-                        <li>
-                            <i class="fa fa-folder"></i> /
-
-                            <ul>
-                                <li><i class="fa fa-folder"></i> build/
-
-                                    <ul>
-                                        <li><i class="fa fa-file"></i> cv_en.pdf</li>
-                                        <li><i class="fa fa-file"></i> cv_en.log</li>
-                                    </ul>
-                                </li>
-                            </ul>
-                        </li>
-                    </ul>
-                </div>
-                <div class="col-md-6">
-                    <p>These files were sent by you:</p>
-                    <ul>
-                        <li>
-                            <i class="fa fa-folder"></i> /
-
-                            <ul>
-                                <li><i class="fa fa-file"></i> cv_en.tex</li>
-                            </ul>
-                        </li>
-                    </ul>
-                </div>
-                <div class="col-lg-12">
-                    <h4>Execution Trace</h4>
-                    <p>This is the full execution trace of the command:</p>
-                    <div class="terminal">
-                        <span class="line">pdflatex -output-directory build cv_en.tex</span><br />
-                        <span class="line">This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016/Debian) (preloaded format=pdflatex)</span><br />
-                        <span class="line"> restricted \write18 enabled.</span><br />
-                        <span class="line">entering extended mode</span><br />
-                        <span class="line">(./cv_en.tex</span><br />
-                        <span class="line">LaTeX2e <2017/01/01> patch level 3</span><br />
-                        <span class="line">Babel <3.9r> and hyphenation patterns for 5 language(s) loaded.</span><br />
-                        <span class="line">(/usr/share/texlive/texmf-dist/tex/latex/base/article.cls</span><br />
-                        <span class="line">Output written on build/cv_en.pdf (2 pages, 138275 bytes).</span><br />
-                        <span class="line">Transcript written on build/cv_en.log.</span>
-                    </div>
                 </div>
             </div>
         </div>
@@ -93,7 +55,7 @@
                 <div class="col-md-3">Compiled 3 months ago</div>
                 <div class="col-md-3">&bull;</div>
                 <div class="col-md-2">
-                    <a href="#" class="button button-small">Open</a>
+                    <a href="{% url 'task' 2 %}" class="button button-small">Open</a>
                     <a href="#" class="button button-small button-warning">Remove</a>
                 </div>
             </div>
@@ -105,7 +67,7 @@
                 <div class="col-md-3">Compiled 3 months ago</div>
                 <div class="col-md-3">&bull;</div>
                 <div class="col-md-2">
-                    <a href="#" class="button button-small">Open</a>
+                    <a href="{% url 'task' 3 %}" class="button button-small">Open</a>
                     <a href="#" class="button button-small button-warning">Remove</a>
                 </div>
             </div>

@@ -1,5 +1,4 @@
 div.drag-drop {
-  border-right: 1px solid $global-light-color;
   padding-bottom: 10px;
 
   div.drop-area {
@@ -16,21 +15,9 @@ div.drag-drop {
       font-weight: bold;
     }
   }
-}
 
-div.terminal {
-  padding: 1px 15px;
-  border-radius: 2px;
-  background: #393939;
-  color: white;
-  font-family: monospace;
-
-  span.line::before {
-    content: '$ ';
-  }
-
-  span.comment {
-    opacity: 0.7;
+  @media screen and (min-width: $global-breakpoint-medium) {
+    border-right: 1px solid $global-light-color;
   }
 }
 

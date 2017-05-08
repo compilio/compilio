@@ -1,0 +1,78 @@
+{% extends 'base.html' %}
+
+{% block title %}Compilio &middot; The online compiler{% endblock %}
+
+{% block intro %}
+    <div class="main-intro">
+        <div class="container">
+            <h2>Task n°2938</h2>
+            <p>
+                This task was a PDF LaTeX compilation launched 3 months ago.
+            </p>
+        </div>
+    </div>
+{% endblock %}
+
+{% block content %}
+    <div class="card">
+        <div class="row card-container">
+            <div class="col-lg-12">
+                {% if request.user.is_authenticated %}<p class="pull-right"><a href="{% url 'tasks' %}" class="button"><i class="fa fa-list"></i> My tasks</a></p>{% endif %}
+                <h3>Files</h3>
+                <p>The script <span class="label">pdflatex -output-directory build cv_en.tex</span> was executed.</p>
+            </div>
+            <div class="col-md-6">
+                <p>These files were produced by the compilation script:</p>
+                <ul class="files-tree">
+                    <li>
+                        <i class="fa fa-folder"></i> /
+
+                        <ul>
+                            <li><i class="fa fa-folder"></i> build/
+
+                                <ul>
+                                    <li><i class="fa fa-file"></i> cv_en.pdf</li>
+                                    <li><i class="fa fa-file"></i> cv_en.log</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+            <div class="col-md-6">
+                <p>These files were sent by you:</p>
+                <ul class="files-tree">
+                    <li>
+                        <i class="fa fa-folder"></i> /
+
+                        <ul>
+                            <li><i class="fa fa-file"></i> cv_en.tex</li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="card">
+        <div class="row card-container">
+            <div class="col-lg-12">
+                <h3>Execution Trace</h3>
+                <p>This is the full execution trace of the command:</p>
+                <div class="terminal">
+                    <p>
+                        <span class="line">pdflatex -output-directory build cv_en.tex</span><br />
+                        <span class="line">This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016/Debian) (preloaded format=pdflatex)</span><br />
+                        <span class="line"> restricted \write18 enabled.</span><br />
+                        <span class="line">entering extended mode</span><br />
+                        <span class="line">(./cv_en.tex</span><br />
+                        <span class="line">LaTeX2e <2017/01/01> patch level 3</span><br />
+                        <span class="line">Babel <3.9r> and hyphenation patterns for 5 language(s) loaded.</span><br />
+                        <span class="line">(/usr/share/texlive/texmf-dist/tex/latex/base/article.cls</span><br />
+                        <span class="line">Output written on build/cv_en.pdf (2 pages, 138275 bytes).</span><br />
+                        <span class="line">Transcript written on build/cv_en.log.</span>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

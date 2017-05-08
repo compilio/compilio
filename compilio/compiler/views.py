@@ -7,7 +7,10 @@ def index(request):
 
 
 def tasks(request):
-    if not request.user.is_authenticated:
-        return redirect('%s?next=%s' % (settings.LOGIN_URL, request.path))
-
     return render(request, 'compiler/tasks.html')
+
+
+def task(request, task):
+    # Todo: add voter to check if the task can be read by current (or anonymous) user
+
+    return render(request, 'compiler/task.html')

@@ -6,5 +6,6 @@ from . import api
 urlpatterns = [
     url(r'^$', views.index, name='index'),
     url(r'^tasks$', views.tasks, name='tasks'),
+    url(r'^tasks/(?P<task>\d+)$', views.task, name='task'),
     url(r'^compiler/init$', api.init, name='init'),
 ]
