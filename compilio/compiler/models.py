@@ -1,4 +1,5 @@
 import datetime
+import uuid
 
 from django.db import models
 
@@ -15,7 +16,7 @@ class Folder(models.Model):
 
 
 class Task(models.Model):
-    token = models.CharField(max_length=128, primary_key=True)
+    token = models.CharField(primary_key=True, max_length=100, blank=True, unique=True, default=uuid.uuid4)
     command = models.CharField(max_length=128)
     url = models.CharField(max_length=128)
 

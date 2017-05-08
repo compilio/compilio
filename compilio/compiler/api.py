@@ -22,7 +22,7 @@ def init(request):
             print('No compiler found')
             return HttpResponse('No compiler found')
 
-        task = Task(token='t4VQ7J51K67a0rFQ4jq1pZd7WgMgN95S', command=command)
+        task = Task(command=command)
         task.save()
 
         matches = re.finditer(compiler_object.regex, command)
