@@ -28,8 +28,9 @@ To be able to run the project properly, you need to run the Webpack dev server f
 ./node_modules/.bin/webpack-dev-server
 ```
 
-You can then run the python build-in server:
+You can then run the python built-in server:
 
 ```sh
+python manage.py migrate
 python manage.py runserver
 ```
