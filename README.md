@@ -10,7 +10,7 @@ More information coming soon...
 
 To install the project and start the deployment environment, you need the following requirements:
 
-- `Python 3.5` with `pip`
+- `Python 3.4` with `pip`
 - `Node 6` with `npm`
 
 Then, run the following commands:
