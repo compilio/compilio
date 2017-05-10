@@ -11,7 +11,7 @@ def init(request):
     if request.method == 'POST':
         command = request.POST.get('command')
         if command is None:
-            return HttpResponse("command is None")
+            return HttpResponse("command is None", status=400)
 
         compiler_name = command.split(' ')[0]
 
@@ -19,7 +19,7 @@ def init(request):
             compiler_object = Compiler.objects.get(name=compiler_name)
         except Compiler.DoesNotExist:
             print('No compiler found')
-            return HttpResponse('No compiler found')
+            return HttpResponse('No compiler found', status=404)
 
         task = Task(command=command)
         task.save()
