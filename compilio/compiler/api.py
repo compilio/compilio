@@ -1,6 +1,5 @@
-import re
-
 from django.http import HttpResponse
+from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 
 from compilio.compiler.models import Compiler
@@ -22,20 +21,9 @@ def init(request):
             print('No compiler found')
             return HttpResponse('No compiler found')
 
-        task = Task(token='t4VQ7J51K67a0rFQ4jq1pZd7WgMgN95S', command=command)
+        task = Task(command=command)
         task.save()
 
-        matches = re.finditer(compiler_object.regex, command)
-        for match_num, match in enumerate(matches):
-            match_num = match_num + 1
-            print("Match {matchNum} was found at {start}-{end}: {match}".format(matchNum=match_num, start=match.start(),
-                                                                                end=match.end(), match=match.group()))
-            for group_num in range(0, len(match.groups())):
-                group_num = group_num + 1
+        input_files = compiler_object.get_input_files(command)
 
-                print("Group {groupNum} found at {start}-{end}: {group}".format(groupNum=group_num,
-                                                                                start=match.start(group_num),
-                                                                                end=match.end(group_num),
-                                                                                group=match.group(group_num)))
-
-        return HttpResponse('output_files')
+        return JsonResponse({'input_files': input_files})
