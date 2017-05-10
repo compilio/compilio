@@ -1,4 +1,5 @@
 import datetime
+import re
 import uuid
 
 from django.db import models
@@ -39,6 +40,23 @@ class Task(models.Model):
 class Compiler(models.Model):
     name = models.CharField(max_length=128)
     regex = models.CharField(max_length=128)
+
+    def get_input_files(self, command):
+        input_files = []
+        matches = re.finditer(self.regex, command)
+        for match_num, match in enumerate(matches):
+            match_num = match_num + 1
+            print("Match {matchNum} was found at {start}-{end}: {match}".format(matchNum=match_num, start=match.start(),
+                                                                                end=match.end(), match=match.group()))
+            input_files.append(match.group())
+            for group_num in range(0, len(match.groups())):
+                group_num = group_num + 1
+
+                print("Group {groupNum} found at {start}-{end}: {group}".format(groupNum=group_num,
+                                                                                start=match.start(group_num),
+                                                                                end=match.end(group_num),
+                                                                                group=match.group(group_num)))
+        return input_files
 
 
 class Server(models.Model):
