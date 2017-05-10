@@ -26,4 +26,22 @@ def init(request):
 
         input_files = compiler_object.get_input_files(command)
 
-        return JsonResponse({'input_files': input_files})
+        return JsonResponse({'input_files': input_files, 'task_id': task.id})
+
+
+@csrf_exempt
+def upload(request):
+    if request.method == 'POST':
+        task_id = request.POST.get('task_id')
+        if task_id is None:
+            return HttpResponse("task_id is None", status=400)
+
+        try:
+            task_object = Task.objects.get(id=task_id)
+        except Compiler.DoesNotExist:
+            print('No Task found')
+            return HttpResponse('No compiler found', status=404)
+
+        print(task_object)
+
+        return JsonResponse({'ok': 'ok'})
