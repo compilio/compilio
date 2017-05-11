@@ -1,5 +1,6 @@
 <template>
-  <div>
+  <div class="col-md-6 drag-drop">
+    <h3>Drag &amp; Drop</h3>
     <drop-area></drop-area>
     <compiler-list></compiler-list>
   </div>
@@ -17,3 +18,15 @@
     }
   }
 </script>
+
+<style scoped lang="scss" ref="stylesheet/scss">
+  @import "../../scss/vars";
+
+  div.drag-drop {
+    padding-bottom: 10px;
+
+    @media screen and (min-width: $global-breakpoint-medium) {
+      border-right: 1px solid $global-light-color;
+    }
+  }
+</style>
