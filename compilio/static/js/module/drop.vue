@@ -1,10 +1,13 @@
 <template>
-  <input type="file" class="drop-area" />
+  <div>
+    <label for="drop-area">Compile your files by dropping them on the following area:</label>
+    <input id="drop-area" type="file" class="drop-area" multiple />
+  </div>
 </template>
 
 <script type="text/javascript">
   export default {
-    name: 'drop-zone'
+    name: 'drop'
   }
 </script>
 
@@ -14,15 +17,10 @@
   input.drop-area {
     border: 2px dashed $global-light-color;
     height: 150px;
-    text-align: center;
-    padding-top: 60px;
     border-radius: 2px;
-
-    &:after {
-      content: 'Drop your files here';
-      color: $global-light-color;
-      font-size: 1.4em;
-      font-weight: bold;
-    }
+    width: 100%;
+    padding: 60px 10px;
+    display: block;
+    margin: 0 auto;
   }
 </style>
