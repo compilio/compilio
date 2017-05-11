@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block title %}Register on Compilio{% endblock %}
+
+{% block intro %}
+    <div class="main-intro">
+        <div class="container">
+            <h2>Register on Compilio</h2>
+            <p>
+                Create an account now to be able to retrieve your compilation tasks and files at any time,
+                stored into your account.
+            </p>
+        </div>
+    </div>
+{% endblock %}
+
+{% block content %}
+    <div class="card">
+        <div class="row card-container">
+            <div class="col-lg-12">
+                <form action="{% url 'register' %}" method="post">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    <p><button type="submit" class="button">Join Compilio</button></p>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}

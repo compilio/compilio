@@ -11,3 +11,4 @@ rjsmin==1.0.12
 six==1.10.0
 Unipath==1.1
 PyYAML==3.12
+django-registration==2.2

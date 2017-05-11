@@ -20,7 +20,7 @@
                 {% if not request.user.is_authenticated %}
                     <h3>Hello there!</h3>
                     <p>
-                        You are not authenticated. You can <a href="#" class="button button-small">create an account</a> or
+                        You are not authenticated. You can <a href="{% url 'register' %}" class="button button-small">create an account</a> or
                         <a href="{% url 'login' %}">login</a> if you want to save your compilations to download your files
                         later.
                     </p>

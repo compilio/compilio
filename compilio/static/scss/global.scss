@@ -132,11 +132,23 @@ div.terminal {
 
 form {
   input[type=text],
-  input[type=password] {
+  input[type=password],
+  input[type=email] {
     border: 1px solid $global-light-color;
     height: 30px;
     padding: 3px;
     border-radius: 2px;
+  }
+
+  span.helptext, ul:not(.errorlist) {
+    display: block;
+    margin: 10px 0;
+    color: #888888;
+    font-style: italic;
+  }
+
+  ul.errorlist {
+    color: $global-error-color;
   }
 }
 
