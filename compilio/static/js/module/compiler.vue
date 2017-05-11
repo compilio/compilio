@@ -1,6 +1,6 @@
 <template>
   <div class="col-sm-4">
-    <a href="#"><i class="fa fa-file-pdf-o"></i> PDF LaTeX</a>
+    <button type="submit"><i class="fa fa-file-pdf-o"></i> PDF LaTeX</button>
   </div>
 </template>
 
@@ -14,12 +14,14 @@
 <style scoped lang="scss" ref="stylesheet/scss">
   @import "../../scss/vars";
 
-  a {
+  button {
     border-radius: 4px;
     display: block;
-    padding: 5px 0 3px;
+    padding: 7px 10px;
     background: $global-light-color;
     text-align: center;
+    border: 0;
+    cursor: pointer;
 
     &:hover {
       background: darken($global-light-color, 3%);

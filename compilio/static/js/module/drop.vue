@@ -1,8 +1,10 @@
 <template>
   <div class="col-md-6 drag-drop">
     <h3>Drag &amp; Drop</h3>
-    <drop-area></drop-area>
-    <compiler-list></compiler-list>
+    <form action="#" method="post">
+      <drop-area></drop-area>
+      <compiler-list></compiler-list>
+    </form>
   </div>
 </template>
 
