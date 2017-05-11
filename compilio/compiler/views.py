@@ -14,3 +14,7 @@ def task(request, task):
     # Todo: add voter to check if the task can be read by current (or anonymous) user
 
     return render(request, 'compiler/task.html')
+
+
+def documentation(request):
+    return render(request, 'compiler/documentation.html')

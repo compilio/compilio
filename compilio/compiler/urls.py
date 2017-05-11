@@ -7,6 +7,9 @@ urlpatterns = [
     url(r'^$', views.index, name='index'),
     url(r'^tasks$', views.tasks, name='tasks'),
     url(r'^tasks/(?P<task>\d+)$', views.task, name='task'),
+
     url(r'^compiler/init$', api.init, name='init'),
     url(r'^compiler/upload$', api.upload, name='upload'),
+
+    url(r'^documentation', views.documentation, name='documentation'),
 ]

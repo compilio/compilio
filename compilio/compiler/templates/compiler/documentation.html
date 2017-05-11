@@ -1,0 +1,74 @@
+{% extends 'base.html' %}
+
+{% block title %}Compilio's documentation{% endblock %}
+
+{% block intro %}
+    <div class="main-intro">
+        <div class="container">
+            <h2>Documentation</h2>
+            <p>
+                This documentation targets users, web hosts and Compilio's contributors. You will learn how to user
+                Compilio, how to host your own Compilio's instance and how to contribute to Compilio source code.
+            </p>
+        </div>
+    </div>
+{% endblock %}
+
+{% block content %}
+    <div class="card">
+        <div class="row card-container">
+            <div class="col-lg-12">
+                <h3>User's guide</h3>
+                <p>
+                    Compilio can be used in two different ways. You can either upload the files you want to compile
+                    directly on the homepage or use Compilio CLI, a command-line solution to compile your files
+                    directly from your shell.
+                </p>
+                <h4>Using Compil.io</h4>
+                <ol>
+                    <li>Go to <a href="https://compil.io">Compilio's homepage</a> and drop the files you want to compile.</li>
+                    <li>
+                        You can choose from the different compilers available by clicking on one of the tasks displayed on
+                        the homepage.
+                    </li>
+                    <li>
+                        Wait until the compilation finishes. You can then see the compilation trace code and download the
+                        result files.
+                    </li>
+                </ol>
+                <h4>Using Compilio CLI</h4>
+                <ol>
+                    <li><a href="#">Download and install</a> Compilio CLI using PIP.</li>
+                    <li>
+                        Run the your compilation command prefixed with <span class="label">compilio</span>. For example,
+                        you can run <span class="label">pdflatex</span> by running <span class="label">compilio pdflatex file.tex</span>
+                    </li>
+                    <li>
+                        Wait until the compilation finishes. The compilation trace is displayed on your shell and the files
+                        are directly downloaded, as if the compilation task ran locally!
+                    </li>
+                </ol>
+            </div>
+        </div>
+    </div>
+    <div class="card">
+        <div class="row card-container">
+            <div class="col-lg-12">
+                <h3>Host's guide</h3>
+                <p>
+                    You can deploy your own copy of Compil.io as a regular Django application. You can also use your
+                    own server as a task runner, managed automatically by the main Compil.io instance. More information
+                    coming soon.
+                </p>
+            </div>
+        </div>
+    </div>
+    <div class="card">
+        <div class="row card-container">
+            <div class="col-lg-12">
+                <h3>Contributor's guide</h3>
+                <p>You can contribute to Compil.io directly <a href="https://github.com/Compilio/Compilio">on GitHub</a>!</p>
+            </div>
+        </div>
+    </div>
+{% endblock %}

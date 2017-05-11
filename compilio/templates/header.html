@@ -15,7 +15,9 @@
                     </a>
                 </li>
                 <li>
-                    <a href="#"><i class="fa fa-book"></i> Documentation</a>
+                    <a href="{% url 'documentation' %}" class="{% if request.resolver_match.url_name == 'documentation'  %}active{% endif %}">
+                        <i class="fa fa-book"></i> Documentation
+                    </a>
                 </li>
                 <li>
                     <a href="{% url 'index' %}#about"><i class="fa fa-info-circle"></i> About</a>
