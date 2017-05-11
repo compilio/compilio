@@ -1,6 +1,9 @@
 <template>
   <div>
-    <compiler :compiler="compiler" v-for="compiler in compilers" :key="compiler.id"></compiler>
+    <p>And selecting the compiler to run:</p>
+    <div class="row">
+      <compiler :compiler="compiler" v-for="compiler in compilers" :key="compiler.id"></compiler>
+    </div>
   </div>
 </template>
 
@@ -25,9 +28,3 @@
     }
   }
 </script>
-
-<style scoped lang="scss" ref="stylesheet/scss">
-  div {
-    text-align: center;
-  }
-</style>
