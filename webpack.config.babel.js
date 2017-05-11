@@ -1,11 +1,12 @@
-let prod = process.env.SYMFONY_ENV === 'prod'
+let prod = process.env.NODE_ENV === 'prod'
 
 import ExtractTextPlugin from 'extract-text-webpack-plugin'
 import path from 'path'
 
 export default {
   entry: {
-    main: path.join(__dirname, '/compilio/static/js/main.js')
+    main: path.join(__dirname, '/compilio/static/js/main.js'),
+    drop: path.join(__dirname, '/compilio/static/js/drop.js')
   },
   output: {
     filename: 'js/[name].js',
@@ -22,6 +23,10 @@ export default {
       {
         test: /\.css/,
         loader: ExtractTextPlugin.extract('css-loader')
+      },
+      {
+        test: /\.vue/,
+        loader: 'vue-loader'
       },
       {
         test: /\.scss$/,
@@ -42,7 +47,7 @@ export default {
   ],
   devServer: {
     contentBase: path.join(__dirname, '/static/assets/'),
-    headers: { "Access-Control-Allow-Origin": "*" }
+    headers: { 'Access-Control-Allow-Origin': '*' }
   },
   devtool: prod ? false : '#inline-source-map'
 }

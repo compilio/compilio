@@ -1,21 +1,6 @@
 div.drag-drop {
   padding-bottom: 10px;
 
-  div.drop-area {
-    border: 2px dashed $global-light-color;
-    height: 150px;
-    text-align: center;
-    padding-top: 60px;
-    border-radius: 2px;
-
-    &:after {
-      content: 'Drop your files here';
-      color: $global-light-color;
-      font-size: 1.4em;
-      font-weight: bold;
-    }
-  }
-
   @media screen and (min-width: $global-breakpoint-medium) {
     border-right: 1px solid $global-light-color;
   }

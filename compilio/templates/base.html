@@ -1,3 +1,5 @@
+{% load static %}
+
 <!doctype html>
 
 <html lang="en">
@@ -8,10 +10,9 @@
     <meta name="description" content="An online command line or drag and drop compiler" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    {% load static %}
-
-    <link type="text/css" href="{% static "css/style.css" %}" rel="stylesheet" />
-    <script type="text/javascript" src="{% static "js/main.js" %}"></script>
+    {% block stylesheets %}
+        <link type="text/css" href="{% static "css/style.css" %}" rel="stylesheet" />
+    {% endblock %}
 </head>
 
 <body>
@@ -20,6 +21,10 @@
     <main class="container">
         {% block content %}{% endblock %}
     </main>
-   {% include 'footer.html' %}
+    {% include 'footer.html' %}
+
+    {% block javascripts %}
+        <script type="text/javascript" src="{% static "js/main.js" %}"></script>
+    {% endblock %}
 </body>
 </html>
