@@ -17,7 +17,10 @@
     <div class="card">
         <div class="row card-container">
             <div class="col-lg-12">
-                {% if request.user.is_authenticated %}<p class="pull-right"><a href="{% url 'tasks' %}" class="button"><i class="fa fa-list"></i> My tasks</a></p>{% endif %}
+                <p class="pull-right">
+                    <a href="{% url 'tasks' %}" class="button button-info"><i class="fa fa-cloud-download"></i> Download compiled files</a>
+                    <a href="{% url 'tasks' %}" class="button"><i class="fa fa-list"></i> My tasks</a>
+                </p>
                 <h3>Files</h3>
                 <p>The script <span class="label">pdflatex -output-directory build cv_en.tex</span> was executed.</p>
             </div>

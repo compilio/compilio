@@ -37,7 +37,7 @@ button.button {
 
   &.button-small {
     font-size: 0.9em;
-    padding: 2px 5px;
+    padding: 2px 5px 0;
   }
 
   &.button-success {
@@ -92,7 +92,7 @@ main > div.card:first-of-type {
 .label {
   background: $global-light-color;
   border-radius: 2px;
-  padding: 2px 5px;
+  padding: 4px 5px 2px;
   color: black;
   font-size: 0.9em;
 
