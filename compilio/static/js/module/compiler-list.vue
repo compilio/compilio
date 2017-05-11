@@ -15,7 +15,7 @@
     components: {
       Compiler
     },
-    data() {
+    data () {
       return {
         compilers: [
           {
