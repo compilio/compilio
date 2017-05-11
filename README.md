@@ -1,5 +1,7 @@
 # Compilio
 
+[![Build Status](https://travis-ci.org/Compilio/Compilio.svg?branch=master)](https://travis-ci.org/Compilio/Compilio)
+
 Compilio will be an online self-hostable modular compiler allowing you to compile files such as PDF LaTeX files and more.
 
 More information coming soon...
