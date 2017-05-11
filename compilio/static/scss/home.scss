@@ -5,20 +5,3 @@ div.drag-drop {
     border-right: 1px solid $global-light-color;
   }
 }
-
-div.compiler-list {
-  text-align: center;
-
-  div.compiler {
-    a {
-      border-radius: 4px;
-      display: block;
-      padding: 3px;
-      background: $global-light-color;
-
-      &:hover {
-        background: darken($global-light-color, 3%);
-      }
-    }
-  }
-}

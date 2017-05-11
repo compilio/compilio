@@ -1,26 +1,19 @@
 <template>
   <div>
-    <label for="drop-area">Compile your files by dropping them on the following area:</label>
-    <input id="drop-area" type="file" class="drop-area" multiple />
+    <drop-area></drop-area>
+    <compiler-list></compiler-list>
   </div>
 </template>
 
 <script type="text/javascript">
+  import DropArea from './drop-area.vue'
+  import CompilerList from './compiler-list.vue'
+
   export default {
-    name: 'drop'
+    name: 'drop',
+    components: {
+      DropArea,
+      CompilerList
+    }
   }
 </script>
-
-<style scoped lang="scss" ref="stylesheet/scss">
-  @import "../../scss/vars";
-
-  input.drop-area {
-    border: 2px dashed $global-light-color;
-    height: 150px;
-    border-radius: 2px;
-    width: 100%;
-    padding: 60px 10px;
-    display: block;
-    margin: 0 auto;
-  }
-</style>
