@@ -1,26 +1,38 @@
 header.main-header {
   background: $global-primary-color;
   width: 100%;
-  min-height:100px;
+  min-height: 90px;
   padding: 5px 0 0;
   color: white;
 
   h1 {
     a {
+      &::before {
+        content: '';
+        background: url('../images/logo.svg') no-repeat;
+        background-size: contain;
+        vertical-align: middle;
+        padding-bottom: 7px;
+        display: inline-block;
+        width: 80px;
+        height: 80px;
+        margin-right: 5px;
+      }
+
       color: white;
     }
 
     display: inline-block;
     font-weight: bold;
     font-family: "Comfortaa Bold", Arial, Helvetica, sans-serif;
-    margin: 33px 0 0;
+    margin: 0;
   }
 
   nav.main-menu {
     display: inline-block;
     float: right;
     font-size: 1.1em;
-    margin: 20px 0 10px;
+    margin: 17px 0 10px;
     width: 100%;
 
     @media screen and (min-width: $global-breakpoint-large) {
