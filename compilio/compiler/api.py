@@ -6,54 +6,72 @@ from compilio.compiler.models import Compiler
 from compilio.compiler.models import Task
 
 
+def validate_post_arg(request, *keys):
+    if request.method != 'POST':
+        raise Exception('Use Method POST')
+
+    arguments = []
+    for key in keys:
+        argument = request.POST.get(key)
+        if argument is None:
+            raise Exception(key + ' is None')
+        arguments.append(argument)
+        print(argument)
+
+    if len(keys) == 1:
+        return arguments[0]
+
+    return arguments
+
+
 @csrf_exempt
 def init(request):
-    if request.method == 'POST':
-        command = request.POST.get('command')
-        if command is None:
-            return HttpResponse("command is None", status=400)
+    try:
+        command = validate_post_arg(request, 'command')
+    except Exception as e:
+        return HttpResponse(e, status=400)
 
-        compiler_name = command.split(' ')[0]
+    compiler_name = command.split(' ')[0]
 
-        try:
-            compiler_object = Compiler.objects.get(name=compiler_name)
-        except Compiler.DoesNotExist:
-            print('No compiler found')
-            return HttpResponse('No compiler found', status=404)
+    try:
+        compiler_object = Compiler.objects.get(name=compiler_name)
+    except Compiler.DoesNotExist:
+        print('No compiler found')
+        return HttpResponse('No compiler found', status=404)
 
-        task = Task(command=command)
-        task.save()
+    task = Task(command=command)
+    task.save()
 
-        # TODO : Task status to 'Waiting for input_files'
+    # TODO : Task status to 'Waiting for input_files'
 
-        input_files = compiler_object.get_input_files(command)
+    input_files = compiler_object.get_input_files(command)
 
-        return JsonResponse({'input_files': input_files, 'task_id': task.id})
+    return JsonResponse({'input_files': input_files, 'task_id': task.id})
 
 
 @csrf_exempt
 def upload(request):
-    if request.method == 'POST':
-        task_id = request.POST.get('task_id')
-        if task_id is None:
-            return HttpResponse("task_id is None", status=400)
+    try:
+        task_id = validate_post_arg(request, 'task_id')
+    except Exception as e:
+        return HttpResponse(e, status=400)
 
-        try:
-            task_object = Task.objects.get(id=task_id)
-        except Compiler.DoesNotExist:
-            print('No Task found')
-            return HttpResponse('No compiler found', status=404)
+    try:
+        task_object = Task.objects.get(id=task_id)
+    except Compiler.DoesNotExist:
+        print('No Task found')
+        return HttpResponse('No compiler found', status=404)
 
-        print(task_object)
-        # TODO : param task_id, input_files
+    print(task_object)
+    # TODO : param task_id, input_files
 
-        # TODO : Create files rows in bd and attach it to Task object
-        # TODO : Store input files in /task_id/input_files
-        # TODO : Get build process (here or in 'init' endpoint)
-        # TODO : Send process_build and input files to compiler-runner
-        # TODO : Task status to 'Sent to runner'
+    # TODO : Create files rows in bd and attach it to Task object
+    # TODO : Store input files in /task_id/input_files
+    # TODO : Get build process (here or in 'init' endpoint)
+    # TODO : Send process_build and input files to compiler-runner
+    # TODO : Task status to 'Sent to runner'
 
-        return JsonResponse({'ok': 'ok'})
+    return JsonResponse({'ok': 'ok'})
 
 
 @csrf_exempt
