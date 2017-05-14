@@ -1,3 +1,4 @@
+from django.core.files.storage import FileSystemStorage
 from django.http import HttpResponse
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
@@ -49,6 +50,14 @@ def init(request):
     return JsonResponse({'input_files': input_files, 'task_id': task.id})
 
 
+def save_files(request, task_id, folder):
+    file = request.FILES['0']  # TODO : hardcoded key
+    fs = FileSystemStorage()
+    filename = fs.save('uploads/tasks/' + task_id + '/' + folder + '/' + file.name, file)
+    uploaded_file_url = fs.url(filename)
+    return uploaded_file_url
+
+
 @csrf_exempt
 def upload(request):
     try:
@@ -63,15 +72,16 @@ def upload(request):
         return HttpResponse('No compiler found', status=404)
 
     print(task_object)
+    uploaded_file_url = save_files(request, task_id, 'input_files')
+
     # TODO : param task_id, input_files
 
     # TODO : Create files rows in bd and attach it to Task object
-    # TODO : Store input files in /task_id/input_files
     # TODO : Get build process (here or in 'init' endpoint)
     # TODO : Send process_build and input files to compiler-runner
     # TODO : Task status to 'Sent to runner'
 
-    return JsonResponse({'ok': 'ok'})
+    return JsonResponse({'ok': uploaded_file_url})
 
 
 @csrf_exempt
