@@ -1,3 +1,6 @@
+import json
+
+import requests
 from django.core.files.storage import FileSystemStorage
 from django.http import HttpResponse
 from django.http import JsonResponse
@@ -73,6 +76,9 @@ def upload(request):
 
     print(task_object)
     uploaded_file_url = save_files(request, task_id, 'input_files')
+
+    res = requests.post("http://localhost:7894/compile", data={'bash': 'ls .'})
+    print(json.loads(res.text)['output'])
 
     # TODO : param task_id, input_files
 

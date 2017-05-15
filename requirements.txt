@@ -1,3 +1,4 @@
+requests==2.14.2
 appdirs==1.4.3
 Django==1.11
 django-appconf==1.0.2
