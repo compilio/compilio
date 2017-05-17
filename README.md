@@ -43,5 +43,5 @@ You can launch tests using the following commands:
 
 ```sh
 python manage.py test
-python manage.py test funcional
+python manage.py test functional
 ```
