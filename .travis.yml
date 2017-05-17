@@ -15,4 +15,5 @@ install:
 
 script:
   - ./manage.py test
+  - ./manage.py test bdd
   - npm run lint
