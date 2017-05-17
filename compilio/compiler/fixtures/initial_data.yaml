@@ -3,3 +3,7 @@
   fields:
     name: ls
     regex: '[a-zA-Z\/\.0-9]+$'
+  pk: 2
+  fields:
+    name: cat
+    regex: '[a-zA-Z\/\.0-9]+$'
