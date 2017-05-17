@@ -1,9 +1,10 @@
+os: linux
+dist: trusty
 language: python
-
+node_js: '7'
+env: DISPLAY=':99.0'
 python:
   - "3.5"
-
-env: DISPLAY=':99.0'
 
 addons:
   apt:
@@ -19,7 +20,6 @@ cache:
 
 install:
   - pip install -r requirements.txt
-  - nvm install stable
   - npm install
 
 before_script:
