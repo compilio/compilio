@@ -31,5 +31,5 @@ before_script:
 
 script:
   - ./manage.py test
-  - ./manage.py test bdd
+  - ./manage.py test functional
   - npm run lint

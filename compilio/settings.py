@@ -30,7 +30,7 @@ INSTALLED_APPS = [
     'compressor',
     'django_behave',
 
-    'bdd',
+    'functional',
 
     'compilio.compiler',
     'compilio.user',

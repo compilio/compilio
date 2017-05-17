@@ -42,6 +42,6 @@ python manage.py runserver
 You can launch tests using the following commands:
 
 ```sh
-python manage.py test # For unit tests
-python manage.py test bdd # For functional tests
+python manage.py test
+python manage.py test funcional
 ```
