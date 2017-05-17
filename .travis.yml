@@ -1,17 +1,17 @@
 os: linux
 dist: trusty
-language: python
-node_js: '7'
-env: DISPLAY=':99.0'
-python:
-  - "3.5"
-
 addons:
   apt:
     sources:
       - google-chrome
     packages:
       - google-chrome-stable
+
+language: python
+python:
+  - '3.5'
+node_js: '7'
+env: DISPLAY=':99.0'
 
 cache:
   pip: true
