@@ -1,4 +1,4 @@
-let prod = process.env.NODE_ENV === 'prod'
+let prod = process.env.NODE_ENV === 'production'
 
 import ExtractTextPlugin from 'extract-text-webpack-plugin'
 import path from 'path'

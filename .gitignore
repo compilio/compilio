@@ -6,3 +6,5 @@ __pycache__/
 node_modules/
 env/
 uploads/
+compilio/static/assets
+!compilio/static/assets/.gitkeep
