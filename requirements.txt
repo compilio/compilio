@@ -14,3 +14,5 @@ Unipath==1.1
 PyYAML==3.12
 django-registration==2.2
 selenium==3.4.1
+behave
+django_behave

@@ -21,7 +21,7 @@
                 <form action="{% url 'register' %}" method="post">
                     {% csrf_token %}
                     {{ form.as_p }}
-                    <p><button type="submit" class="button">Join Compilio</button></p>
+                    <p><button type="submit" class="button" id="id_submit">Join Compilio</button></p>
                 </form>
             </div>
         </div>
