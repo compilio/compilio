@@ -77,7 +77,9 @@ def upload(request):
     uploaded_file_url = save_files(request, task_id, 'input_files')
 
     # TODO : Find the correct runner
-    res = requests.post("http://localhost:7894/compile", data={'bash': task_object.command})
+    res = requests.post("http://localhost:7894/compile",
+                        data={'task_id': task_id, 'bash': task_object.command}, files={'0': open(
+                            uploaded_file_url, 'rb')})
     print(json.loads(res.text)['output'])
 
     # TODO : param task_id, input_files
