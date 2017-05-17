@@ -25,3 +25,14 @@ def impl(context):
 def impl(context, page):
     assert context.config.server_url + page in context.browser.current_url, \
         "%r does not match %r" % (context.config.server_url + page, context.browser.current_url)
+
+
+@then('I should see "{text}"')
+def impl(context, text):
+    assert text in context.browser.page_source, \
+        "Cannot find %r in page" % text
+
+
+@then('I take a screenshot')
+def impl(context):
+    context.browser.save_screenshot('screenshot.png')
