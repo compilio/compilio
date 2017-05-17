@@ -39,25 +39,23 @@ class Compiler(models.Model):
 
 
 class Task(models.Model):
-    id = models.CharField(primary_key=True, max_length=100, blank=True, unique=True, default=uuid.uuid4)
-    command = models.CharField(max_length=128)
-    url = models.CharField(max_length=128)
-
-    submitted_date = models.DateField(default=datetime.datetime.now)
-    terminated_date = models.DateField(default=datetime.datetime.now)
-    expiry_date = models.DateField(default=datetime.datetime.now)
-
     TASK_STATUS = (
         ('Pending', 'Pending'),
         ('Compiling', 'Compiling'),
         ('Terminated', 'Terminated'),
         ('Error', 'Error'),
     )
-    status = models.CharField(max_length=10, choices=TASK_STATUS)
+
+    id = models.CharField(primary_key=True, max_length=100, blank=True, unique=True, default=uuid.uuid4)
+    command = models.CharField(max_length=128)
+    url = models.CharField(max_length=128)
+    submitted_date = models.DateField(default=datetime.datetime.now)
+    terminated_date = models.DateField(default=datetime.datetime.now)
+    expiry_date = models.DateField(default=datetime.datetime.now)
+    status = models.CharField(max_length=10, choices=TASK_STATUS, default='Pending')
 
     inputs = models.ManyToManyField(Folder, related_name='inputs')
     outputs = models.ManyToManyField(Folder, related_name='outputs')
-
     compiler = models.ForeignKey(Compiler, null=True, blank=True)
 
 
@@ -68,15 +66,14 @@ class Server(models.Model):
 
 
 class ServerCompiler(models.Model):
-    port = models.IntegerField()
-    compiler = models.ForeignKey(Compiler)
-    server = models.ForeignKey(Server)
-
-    last_used_date = models.DateField(default=datetime.datetime.now)
-    last_check = models.DateField(default=datetime.datetime.now)
-
     COMPILER_STATUS = (
         ('Alive', 'Alive'),
         ('Dead', 'Dead'),
     )
+
+    port = models.IntegerField()
+    compiler = models.ForeignKey(Compiler)
+    server = models.ForeignKey(Server)
+    last_used_date = models.DateField(default=datetime.datetime.now)
+    last_check = models.DateField(default=datetime.datetime.now)
     status = models.CharField(max_length=5, choices=COMPILER_STATUS)

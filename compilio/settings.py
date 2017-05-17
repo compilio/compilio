@@ -30,9 +30,10 @@ INSTALLED_APPS = [
     'compressor',
     'django_behave',
 
+    'bdd',
+
     'compilio.compiler',
     'compilio.user',
-    'compilio.bdd',
 ]
 
 MIDDLEWARE = [
@@ -129,4 +130,4 @@ LOGIN_REDIRECT_URL = '/tasks'
 
 # Test
 
-TEST_RUNNER = 'django_behave.runner.DjangoBehaveOnlyTestSuiteRunner'
+TEST_RUNNER = 'django_behave.runner.DjangoBehaveTestSuiteRunner'
