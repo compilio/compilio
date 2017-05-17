@@ -7,3 +7,18 @@
   fields:
     name: cat
     regex: '[a-zA-Z\/\.0-9]+$'
+- model: compiler.Server
+  pk: 1
+  fields:
+    ip: 'http://localhost'
+- model: compiler.ServerCompiler
+  pk: 1
+  fields:
+    port: 7894
+    compiler: 1
+    server: 1
+  pk: 2
+  fields:
+    port: 7894
+    compiler: 2
+    server: 1
