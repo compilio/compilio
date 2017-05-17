@@ -6,7 +6,7 @@ from django.http import HttpResponse
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 
-from compilio.compiler.models import Compiler
+from compilio.compiler.models import Compiler, ServerCompiler
 from compilio.compiler.models import Task
 
 
@@ -76,8 +76,9 @@ def upload(request):
 
     uploaded_file_url = save_files(request, task_id, 'input_files')
 
-    # TODO : Find the correct runner
-    res = requests.post("http://localhost:7894/compile",
+    # TODO : Find the correct runner (find currently the first in the db)
+    server_compiler = ServerCompiler.objects.get(compiler=task_object.compiler)
+    res = requests.post(server_compiler.server.ip + ':' + str(server_compiler.port) + '/compile',
                         data={'task_id': task_id, 'bash': task_object.command}, files={'0': open(
                             uploaded_file_url, 'rb')})
     print(json.loads(res.text)['output'])
