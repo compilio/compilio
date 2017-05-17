@@ -1,7 +1,17 @@
-language: python
+os: linux
+dist: trusty
+addons:
+  apt:
+    sources:
+      - google-chrome
+    packages:
+      - google-chrome-stable
 
+language: python
 python:
-  - "3.5"
+  - '3.5'
+node_js: '7'
+env: DISPLAY=':99.0'
 
 cache:
   pip: true
@@ -10,9 +20,16 @@ cache:
 
 install:
   - pip install -r requirements.txt
-  - nvm install stable
   - npm install
+
+before_script:
+  - wget https://chromedriver.storage.googleapis.com/2.29/chromedriver_linux64.zip
+  - unzip chromedriver_linux64.zip -d chromedriver
+  - export PATH=$PATH:$PWD/chromedriver
+  - "sh -e /etc/init.d/xvfb start"
+  - sleep 3
 
 script:
   - ./manage.py test
+  - ./manage.py test bdd
   - npm run lint

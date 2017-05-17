@@ -28,9 +28,11 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'compressor',
+    'django_behave',
 
     'compilio.compiler',
     'compilio.user',
+    'compilio.bdd',
 ]
 
 MIDDLEWARE = [
@@ -100,13 +102,9 @@ AUTH_PASSWORD_VALIDATORS = [
 # https://docs.djangoproject.com/en/1.11/topics/i18n/
 
 LANGUAGE_CODE = 'en-us'
-
 TIME_ZONE = 'UTC'
-
 USE_I18N = True
-
 USE_L10N = True
-
 USE_TZ = True
 
 
@@ -128,3 +126,7 @@ COMPRESS_PRECOMPILERS = (
 
 LOGIN_URL = '/login'
 LOGIN_REDIRECT_URL = '/tasks'
+
+# Test
+
+TEST_RUNNER = 'django_behave.runner.DjangoBehaveOnlyTestSuiteRunner'
