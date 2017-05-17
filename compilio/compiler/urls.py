@@ -11,5 +11,5 @@ urlpatterns = [
     url(r'^compiler/init$', api.init, name='init'),
     url(r'^compiler/upload$', api.upload, name='upload'),
 
-    url(r'^documentation', views.documentation, name='documentation'),
+    url(r'^doc', views.documentation, name='documentation'),
 ]

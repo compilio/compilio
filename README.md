@@ -36,3 +36,12 @@ You can then run the python built-in server:
 python manage.py migrate
 python manage.py runserver
 ```
+
+### Testing
+
+You can launch tests using the following commands:
+
+```sh
+python manage.py test # For unit tests
+python manage.py test bdd # For functional tests
+```
