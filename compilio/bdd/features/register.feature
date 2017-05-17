@@ -22,5 +22,4 @@ Feature: Register
     And I click on id_submit
     Then user Michel should not exists
     And I should be on /user/register page
-    And I take a screenshot
     And I should see "Enter the same password as before, for verification."
