@@ -43,7 +43,7 @@ def init(request):
         print('No compiler found')
         return HttpResponse('No compiler found', status=404)
 
-    task = Task(command=command)
+    task = Task(command=command, compiler=compiler_object)
     task.save()
 
     # TODO : Task status to 'Waiting for input_files'
@@ -72,7 +72,7 @@ def upload(request):
         task_object = Task.objects.get(id=task_id)
     except Compiler.DoesNotExist:
         print('No Task found')
-        return HttpResponse('No compiler found', status=404)
+        return HttpResponse('No Task found', status=404)
 
     print(task_object)
     uploaded_file_url = save_files(request, task_id, 'input_files')
