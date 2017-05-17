@@ -11,3 +11,4 @@ Feature: Register
     And I fill id_password2 field with m1chelPWD
     And I click on id_submit
     Then user Michel should exists
+    And I should be on /user/login page

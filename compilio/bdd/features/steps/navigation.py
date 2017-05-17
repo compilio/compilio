@@ -14,7 +14,6 @@ def impl(context, field, data):
 @given('I click on {field}')
 def impl(context, field):
     context.browser.find_element_by_id(field).click()
-    context.browser.implicitly_wait(5)
 
 
 @given('I take a screenshot')

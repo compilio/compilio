@@ -4,7 +4,7 @@ from django.core import management
 
 
 def before_all(context):
-    context.browser = webdriver.Firefox()
+    context.browser = webdriver.Chrome()
 
 
 def before_scenario(context, scenario):
