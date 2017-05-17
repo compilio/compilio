@@ -13,6 +13,11 @@ install:
   - nvm install stable
   - npm install
 
+before_script:
+  - "export DISPLAY=:99.0"
+  - "sh -e /etc/init.d/xvfb start"
+  - sleep 3
+
 script:
   - ./manage.py test
   - ./manage.py test bdd
