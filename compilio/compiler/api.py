@@ -74,10 +74,10 @@ def upload(request):
         print('No Task found')
         return HttpResponse('No Task found', status=404)
 
-    print(task_object)
     uploaded_file_url = save_files(request, task_id, 'input_files')
 
-    res = requests.post("http://localhost:7894/compile", data={'bash': 'ls .'})
+    # TODO : Find the correct runner
+    res = requests.post("http://localhost:7894/compile", data={'bash': task_object.command})
     print(json.loads(res.text)['output'])
 
     # TODO : param task_id, input_files
