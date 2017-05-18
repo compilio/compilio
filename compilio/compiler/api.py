@@ -78,11 +78,12 @@ def upload(request):
 
     # TODO : Find the correct runner (find currently the first in the db)
     server_compiler = ServerCompiler.objects.get(compiler=task_object.compiler)
-    res = requests.post(server_compiler.server.ip + ':' + str(server_compiler.port) + '/compile',
-                        data={'task_id': task_id, 'bash': task_object.command}, files={'0': open(
-                            uploaded_file_url, 'rb')})
-    print(json.loads(res.text)['output'])
+    task_object.server_compiler = server_compiler
+    task_object.save()
 
+    res = requests.post(server_compiler.server.ip + ':' + str(server_compiler.port) + '/compile',
+                        data={'task_id': task_id, 'bash': task_object.command},
+                        files={'0': open(uploaded_file_url, 'rb')})
     # TODO : param task_id, input_files
 
     # TODO : Create files rows in bd and attach it to Task object
@@ -94,13 +95,16 @@ def upload(request):
 
 
 @csrf_exempt
-def status(request):
-    # TODO : param task_id
-    # TODO : Get status from db
-    # TODO : OR
-    # TODO : Query compiler-runner to get status
-    # TODO : Update status
-    return JsonResponse({'ok': 'ok'})
+def task(request):
+    try:
+        task_object = Task.objects.get(id=request.GET.get('id'))
+    except Task.DoesNotExist:
+        return JsonResponse({'error': 'task_id not found'})
+
+    res = requests.get(task_object.server_compiler.server.ip + ':'
+                       + str(task_object.server_compiler.port) + '/task?id=' + task_object.id)
+
+    return JsonResponse(res.json())
 
 
 @csrf_exempt

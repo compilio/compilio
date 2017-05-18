@@ -38,6 +38,26 @@ class Compiler(models.Model):
         return input_files
 
 
+class Server(models.Model):
+    ip = models.CharField(max_length=45)
+
+    compilers = models.ManyToManyField(Compiler, through='ServerCompiler')
+
+
+class ServerCompiler(models.Model):
+    COMPILER_STATUS = (
+        ('Alive', 'Alive'),
+        ('Dead', 'Dead'),
+    )
+
+    port = models.IntegerField()
+    compiler = models.ForeignKey(Compiler)
+    server = models.ForeignKey(Server)
+    last_used_date = models.DateField(default=datetime.datetime.now)
+    last_check = models.DateField(default=datetime.datetime.now)
+    status = models.CharField(max_length=5, choices=COMPILER_STATUS)
+
+
 class Task(models.Model):
     TASK_STATUS = (
         ('Pending', 'Pending'),
@@ -57,23 +77,4 @@ class Task(models.Model):
     inputs = models.ManyToManyField(Folder, related_name='inputs')
     outputs = models.ManyToManyField(Folder, related_name='outputs')
     compiler = models.ForeignKey(Compiler, null=True, blank=True)
-
-
-class Server(models.Model):
-    ip = models.CharField(max_length=45)
-
-    compilers = models.ManyToManyField(Compiler, through='ServerCompiler')
-
-
-class ServerCompiler(models.Model):
-    COMPILER_STATUS = (
-        ('Alive', 'Alive'),
-        ('Dead', 'Dead'),
-    )
-
-    port = models.IntegerField()
-    compiler = models.ForeignKey(Compiler)
-    server = models.ForeignKey(Server)
-    last_used_date = models.DateField(default=datetime.datetime.now)
-    last_check = models.DateField(default=datetime.datetime.now)
-    status = models.CharField(max_length=5, choices=COMPILER_STATUS)
+    server_compiler = models.ForeignKey(ServerCompiler, null=True, blank=True)
