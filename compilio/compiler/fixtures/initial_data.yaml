@@ -3,10 +3,19 @@
   fields:
     name: ls
     regex: '[a-zA-Z\/\.0-9]+$'
+    docker_prefix_command: ''
+- model: compiler.Compiler
   pk: 2
   fields:
     name: cat
     regex: '[a-zA-Z\/\.0-9]+$'
+    docker_prefix_command: ''
+- model: compiler.Compiler
+  pk: 3
+  fields:
+    name: pdflatex
+    regex: '[a-zA-Z\/\.0-9]+$'
+    docker_prefix_command: 'docker run --rm -i --net=none -v "$PWD":/data blang/latex'
 - model: compiler.Server
   pk: 1
   fields:
@@ -17,8 +26,15 @@
     port: 7894
     compiler: 1
     server: 1
+- model: compiler.ServerCompiler
   pk: 2
   fields:
     port: 7894
     compiler: 2
+    server: 1
+- model: compiler.ServerCompiler
+  pk: 3
+  fields:
+    port: 7894
+    compiler: 3
     server: 1
