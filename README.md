@@ -27,7 +27,7 @@ npm install
 To be able to run the project properly, you need to run the Webpack dev server first:
 
 ```sh
-./node_modules/.bin/webpack-dev-server
+npm run server
 ```
 
 You can then run the python built-in server:
@@ -35,6 +35,14 @@ You can then run the python built-in server:
 ```sh
 python manage.py migrate
 python manage.py runserver
+```
+
+### Deploying
+
+The assets must be compiled using the following command:
+
+```sh
+npm run compile
 ```
 
 ### Testing
