@@ -1,5 +1,3 @@
-import json
-
 import requests
 from django.core.files.storage import FileSystemStorage
 from django.http import HttpResponse
@@ -82,7 +80,8 @@ def upload(request):
     task_object.save()
 
     res = requests.post(server_compiler.server.ip + ':' + str(server_compiler.port) + '/compile',
-                        data={'task_id': task_id, 'bash': task_object.command},
+                        data={'task_id': task_id,
+                              'bash': task_object.server_compiler.compiler.docker_prefix_command + ' ' + task_object.command},
                         files={'0': open(uploaded_file_url, 'rb')})
     # TODO : param task_id, input_files
 
