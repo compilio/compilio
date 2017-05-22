@@ -19,6 +19,7 @@ class Folder(models.Model):
 class Compiler(models.Model):
     name = models.CharField(max_length=128)
     regex = models.CharField(max_length=128)
+    docker_prefix_command = models.CharField(max_length=128, default='')
 
     def get_input_files(self, command):
         input_files = []
