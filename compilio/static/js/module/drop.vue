@@ -26,7 +26,7 @@
 
         Axios.post('/compiler/init', params)
           .then(function (response) {
-            window.location.href = '/tasks/' + response.data.task_id
+            window.location.href = '/task/' + response.data.task_id
           })
       }
     }

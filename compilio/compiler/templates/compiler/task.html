@@ -2,12 +2,14 @@
 
 {% block title %}Compilio &middot; The online compiler{% endblock %}
 
+{% load humanize %}
+
 {% block intro %}
     <div class="main-intro">
         <div class="container">
-            <h2>Task n°2938</h2>
+            <h2>Task n°{{ task.id }}</h2>
             <p>
-                This task was a PDF LaTeX compilation launched 3 months ago.
+                This task was a PDF LaTeX compilation launched {{ task.submitted_date|naturaltime }}.
             </p>
         </div>
     </div>
