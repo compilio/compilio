@@ -20,15 +20,14 @@
       CompilerList
     },
     methods: {
-      launch (compiler) {
-        let data = new FormData()
-        data.compiler = compiler
+      launch (command) {
+        let params = new URLSearchParams()
+        params.append('command', command)
 
-        const config = {
-          headers: { 'content-type': 'multipart/form-data' }
-        }
-
-        Axios.post('/test', data, config)
+        Axios.post('/compiler/init', params)
+          .then(function (response) {
+            window.location.href = '/tasks/' + response.data.task_id
+          })
       }
     }
   }

@@ -17,6 +17,9 @@ class Folder(models.Model):
 
 
 class Compiler(models.Model):
+    title = models.CharField(max_length=255)
+    description = models.CharField(max_length=255)
+    icon = models.CharField(max_length=50)
     name = models.CharField(max_length=128)
     regex = models.CharField(max_length=128)
     docker_prefix_command = models.CharField(max_length=128, default='')

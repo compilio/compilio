@@ -1,6 +1,6 @@
 <template>
   <div class="col-sm-4">
-    <button type="submit" :name="compiler.id" @click="launch"><i :class="'fa fa-' + compiler.icon"></i> {{ compiler.name }}</button>
+    <button type="submit" :name="compiler.name" @click="launch" :title="compiler.description"><i :class="'fa fa-' + compiler.icon"></i> {{ compiler.title }}</button>
   </div>
 </template>
 
@@ -10,7 +10,7 @@
     props: ['compiler'],
     methods: {
       launch: function (event) {
-        this.$parent.$emit('compile', [ event.target.name ])
+        this.$parent.$emit('compile', event.target.name)
       }
     }
   }
@@ -27,6 +27,7 @@
     text-align: center;
     border: 0;
     cursor: pointer;
+    width: 100%;
 
     &:hover {
       background: darken($global-light-color, 3%);

@@ -89,6 +89,16 @@ main > div.card:first-of-type {
   color: $global-error-color;
 }
 
+.left-aligned {
+  text-align: left;
+}
+.right-aligned {
+  text-align: right;
+}
+.centered {
+  text-align: center;
+}
+
 .label {
   background: $global-light-color;
   border-radius: 2px;

@@ -3,6 +3,7 @@ from django.core.files.storage import FileSystemStorage
 from django.http import HttpResponse
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
+from django.core import serializers
 
 from compilio.compiler.models import Compiler, ServerCompiler
 from compilio.compiler.models import Task
@@ -26,6 +27,10 @@ def validate_post_arg(request, *keys):
     return arguments
 
 
+def list_compilers(request):
+    return JsonResponse({'compilers': serializers.serialize('json', Compiler.objects.all())})
+
+
 @csrf_exempt
 def init(request):
     try:
@@ -44,7 +49,7 @@ def init(request):
     task = Task(command=command, compiler=compiler_object)
     task.save()
 
-    # TODO : Task status to 'Waiting for input_files'
+    # TODO : Task status to 'pending'
 
     input_files = compiler_object.get_input_files(command)
 
