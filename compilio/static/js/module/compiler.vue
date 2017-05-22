@@ -1,13 +1,13 @@
 <template>
   <div class="col-sm-4">
-    <button type="submit"><i class="fa fa-file-pdf-o"></i> PDF LaTeX</button>
+    <button type="submit"><i :class="'fa fa-' + compiler.icon"></i> {{ compiler.name }}</button>
   </div>
 </template>
 
 <script type="text/javascript">
   export default {
     name: 'compiler',
-    props: ['video']
+    props: ['compiler']
   }
 </script>
 

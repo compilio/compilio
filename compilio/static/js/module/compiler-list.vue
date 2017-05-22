@@ -21,7 +21,8 @@
           {
             id: '##id##',
             name: 'PDF LaTeX',
-            description: 'Compile .tex files using PDF LaTex'
+            description: 'Compile .tex files using PDF LaTex',
+            icon: 'file-pdf-o'
           }
         ]
       }
