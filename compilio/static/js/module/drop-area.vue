@@ -1,13 +1,18 @@
 <template>
   <div>
     <label for="drop-area">Compile your files by dropping them on the following area:</label>
-    <input id="drop-area" type="file" class="drop-area" multiple />
+    <input id="drop-area" type="file" class="drop-area" multiple v-bind="files" />
   </div>
 </template>
 
 <script type="text/javascript">
   export default {
-    name: 'drop-area'
+    name: 'drop-area',
+    data () {
+      return {
+        files: null
+      }
+    }
   }
 </script>
 

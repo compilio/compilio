@@ -1,13 +1,18 @@
 <template>
   <div class="col-sm-4">
-    <button type="submit"><i :class="'fa fa-' + compiler.icon"></i> {{ compiler.name }}</button>
+    <button type="submit" :name="compiler.id" @click="launch"><i :class="'fa fa-' + compiler.icon"></i> {{ compiler.name }}</button>
   </div>
 </template>
 
 <script type="text/javascript">
   export default {
     name: 'compiler',
-    props: ['compiler']
+    props: ['compiler'],
+    methods: {
+      launch: function (event) {
+        this.$parent.$emit('compile', [ event.target.name ])
+      }
+    }
   }
 </script>
 
