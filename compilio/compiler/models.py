@@ -1,4 +1,7 @@
+import contextlib
+import io
 import re
+import sys
 import uuid
 
 from django.db import models
@@ -22,6 +25,7 @@ class Compiler(models.Model):
     icon = models.CharField(max_length=50)
     name = models.CharField(max_length=128)
     regex = models.CharField(max_length=128)
+    output_files_parse_code = models.TextField(null=True)
     docker_prefix_command = models.CharField(max_length=128, default='')
 
     def get_input_files(self, command):
@@ -40,6 +44,29 @@ class Compiler(models.Model):
                                                                                 end=match.end(group_num),
                                                                                 group=match.group(group_num)))
         return input_files
+
+    def get_output_files(self, command):
+        @contextlib.contextmanager
+        def stdout_io(stdout=None):
+            old = sys.stdout
+            if stdout is None:
+                stdout = io.StringIO()
+            sys.stdout = stdout
+            yield stdout
+            sys.stdout = old
+
+        code = """
+command = 'pdflatex caca.tex'
+output_files = ''
+matches = re.finditer('[a-zA-Z\/\.0-9]+$', command)
+for match_num, match in enumerate(matches):
+output_files = match.group()
+print(output_files.replace('.tex', '.pdf'))
+        """
+        with stdout_io() as s:
+            exec(code)
+
+        print("out:", s.getvalue())
 
 
 class Server(models.Model):
