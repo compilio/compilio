@@ -53,9 +53,8 @@ def init(request):
 
     input_files = compiler_object.get_input_files(command)
     output_files = compiler_object.get_output_files(command)
-    print(output_files)
 
-    return JsonResponse({'input_files': input_files, 'task_id': task.id})
+    return JsonResponse({'input_files': input_files, 'output_files': output_files, 'task_id': task.id})
 
 
 def save_files(request, task_id, folder):
