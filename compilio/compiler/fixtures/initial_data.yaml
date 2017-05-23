@@ -25,6 +25,11 @@
     title: PDF LaTeX
     description: Compile .tex files using PDF LaTeX
     icon: file-pdf-o
+    output_files_parse_code: |2+
+      matches = re.finditer('[a-zA-Z\/\.0-9]+$', command)
+      for match_num, match in enumerate(matches):
+        output_files = match.group()
+      print(output_files.replace('.tex', '.pdf'))
 - model: compiler.Server
   pk: 1
   fields:

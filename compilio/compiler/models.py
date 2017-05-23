@@ -1,4 +1,7 @@
+import contextlib
+import io
 import re
+import sys
 import uuid
 
 from django.db import models
@@ -22,6 +25,7 @@ class Compiler(models.Model):
     icon = models.CharField(max_length=50)
     name = models.CharField(max_length=128)
     regex = models.CharField(max_length=128)
+    output_files_parse_code = models.TextField(null=True)
     docker_prefix_command = models.CharField(max_length=128, default='')
 
     def get_input_files(self, command):
@@ -40,6 +44,24 @@ class Compiler(models.Model):
                                                                                 end=match.end(group_num),
                                                                                 group=match.group(group_num)))
         return input_files
+
+    def get_output_files(self, command):
+        @contextlib.contextmanager
+        def stdout_io(stdout=None):
+            old = sys.stdout
+            if stdout is None:
+                stdout = io.StringIO()
+            sys.stdout = stdout
+            yield stdout
+            sys.stdout = old
+
+        set_command_code = "command = '" + command + "'\n"
+        code = set_command_code + str(self.output_files_parse_code)
+
+        with stdout_io() as s:
+            exec(code)
+
+        return s.getvalue()[:-1]
 
 
 class Server(models.Model):

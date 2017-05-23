@@ -1,9 +1,11 @@
+import os
+
 import requests
+from django.core import serializers
 from django.core.files.storage import FileSystemStorage
 from django.http import HttpResponse
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
-from django.core import serializers
 
 from compilio.compiler.models import Compiler, ServerCompiler
 from compilio.compiler.models import Task
@@ -81,11 +83,15 @@ def upload(request):
 
     # TODO : Find the correct runner (find currently the first in the db)
     server_compiler = ServerCompiler.objects.get(compiler=task_object.compiler)
+
     task_object.server_compiler = server_compiler
     task_object.save()
 
+    output_files = server_compiler.compiler.get_output_files(task_object.command)
+
     res = requests.post(server_compiler.server.ip + ':' + str(server_compiler.port) + '/compile',
                         data={'task_id': task_id,
+                              'output_files': output_files,
                               'bash': task_object.server_compiler.compiler.docker_prefix_command + ' ' + task_object.command},
                         files={'0': open(uploaded_file_url, 'rb')})
     # TODO : param task_id, input_files
@@ -98,6 +104,13 @@ def upload(request):
     return JsonResponse({'ok': uploaded_file_url})
 
 
+def save_output_file(task_id, res):
+    filename = 'uploads/tasks/' + task_id + '/output_files/output.pdf'
+    os.makedirs(os.path.dirname(filename), exist_ok=True)
+    with open(filename, 'w+b') as f:
+        f.write(res.content)
+
+
 @csrf_exempt
 def task(request):
     try:
@@ -108,15 +121,17 @@ def task(request):
     res = requests.get(task_object.server_compiler.server.ip + ':'
                        + str(task_object.server_compiler.port) + '/task?id=' + task_object.id)
 
-    return JsonResponse(res.json())
+    res_json = res.json()
 
+    if os.path.isdir('uploads/tasks/' + task_object.id + '/output_files'):
+        return JsonResponse(res_json)
 
-@csrf_exempt
-def receive_output_files(request):
-    # TODO : Called by compiler_runner
-    # TODO : param task_id, output_files
+    if res_json['state'] == 'SUCCESS':
+        print('request runner and save file')
+        res = requests.get(task_object.server_compiler.server.ip + ':'
+                           + str(task_object.server_compiler.port)
+                           + '/get_output_files?id=' + task_object.id)
+        if res.status_code == 200:
+            save_output_file(task_object.id, res)
 
-    # TODO : Store output_files in /task_id/input_files
-    # TODO : Change status
-
-    return JsonResponse({'ok': 'ok'})
+    return JsonResponse(res_json)
