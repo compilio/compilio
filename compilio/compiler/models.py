@@ -61,7 +61,7 @@ class Compiler(models.Model):
         with stdout_io() as s:
             exec(code)
 
-        return s.getvalue()
+        return s.getvalue()[:-1]
 
 
 class Server(models.Model):
