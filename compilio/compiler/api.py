@@ -1,9 +1,9 @@
 import requests
+from django.core import serializers
 from django.core.files.storage import FileSystemStorage
 from django.http import HttpResponse
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
-from django.core import serializers
 
 from compilio.compiler.models import Compiler, ServerCompiler
 from compilio.compiler.models import Task
@@ -52,9 +52,8 @@ def init(request):
     # TODO : Task status to 'pending'
 
     input_files = compiler_object.get_input_files(command)
-    output_files = compiler_object.get_output_files(command)
 
-    return JsonResponse({'input_files': input_files, 'output_files': output_files, 'task_id': task.id})
+    return JsonResponse({'input_files': input_files, 'task_id': task.id})
 
 
 def save_files(request, task_id, folder):
@@ -82,11 +81,15 @@ def upload(request):
 
     # TODO : Find the correct runner (find currently the first in the db)
     server_compiler = ServerCompiler.objects.get(compiler=task_object.compiler)
+
     task_object.server_compiler = server_compiler
     task_object.save()
 
+    output_files = server_compiler.compiler.get_output_files(task_object.command)
+
     res = requests.post(server_compiler.server.ip + ':' + str(server_compiler.port) + '/compile',
                         data={'task_id': task_id,
+                              'output_files': output_files,
                               'bash': task_object.server_compiler.compiler.docker_prefix_command + ' ' + task_object.command},
                         files={'0': open(uploaded_file_url, 'rb')})
     # TODO : param task_id, input_files
