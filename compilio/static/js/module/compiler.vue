@@ -10,7 +10,7 @@
     props: ['compiler'],
     methods: {
       launch: function (event) {
-        this.$parent.$emit('compile', event.target.name)
+        this.$emit('compile', event.target.name)
       }
     }
   }

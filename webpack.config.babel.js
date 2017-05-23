@@ -6,7 +6,8 @@ import path from 'path'
 export default {
   entry: {
     main: path.join(__dirname, '/compilio/static/js/main.js'),
-    drop: path.join(__dirname, '/compilio/static/js/drop.js')
+    drop: path.join(__dirname, '/compilio/static/js/drop.js'),
+    task: path.join(__dirname, '/compilio/static/js/task.js')
   },
   output: {
     filename: 'js/[name].js',

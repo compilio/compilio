@@ -19,8 +19,17 @@
       DropArea,
       CompilerList
     },
+    data () {
+      return {
+        files: null
+      }
+    },
     methods: {
       launch (command) {
+        for (let i = 0; i < this.files.length; i++) {
+          command += ' ' + this.files[i].name
+        }
+
         let params = new URLSearchParams()
         params.append('command', command)
 

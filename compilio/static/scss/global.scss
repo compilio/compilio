@@ -7,7 +7,7 @@
 
 body {
   background: $global-background-color;
-  font-family: -apple-system, BlinkMacSystemFont, Roboto, Droid Sans, Helvetica Neue, Helvetica, Arial, sans-serif;
+  font-family: $global-font;
   line-height: 1.5em;
 }
 
@@ -105,6 +105,8 @@ main > div.card:first-of-type {
   padding: 4px 5px 2px;
   color: black;
   font-size: 0.9em;
+  font-family: $global-font;
+  font-weight: normal;
 
   &[class*="label-"] {
     color: white;

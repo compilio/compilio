@@ -1,16 +1,16 @@
 <template>
   <div>
     <label for="drop-area">Compile your files by dropping them on the following area:</label>
-    <input id="drop-area" type="file" class="drop-area" multiple v-bind="files" />
+    <input id="drop-area" type="file" class="drop-area" multiple @change="onFileChange" />
   </div>
 </template>
 
 <script type="text/javascript">
   export default {
     name: 'drop-area',
-    data () {
-      return {
-        files: null
+    methods: {
+      onFileChange (e) {
+        this.$parent.files = e.target.files || e.dataTransfer.files
       }
     }
   }

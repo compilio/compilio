@@ -2,10 +2,10 @@
   <div>
     <p>And selecting the compiler to run:</p>
     <div class="row">
-      <compiler :compiler="compiler.fields" v-for="compiler in compilers" :key="compiler.pk"></compiler>
-      <div class="col-lg-12 centered" v-if="compilers.length === 0">
-        <i class="fa fa-circle-o-notch fa-spin"></i> Loading compilers...
+      <div class="col-lg-12 centered" v-if="compilers.length === 0 || submitted">
+        <i class="fa fa-circle-o-notch fa-spin"></i> Waiting for compilers...
       </div>
+      <compiler :compiler="compiler.fields" v-for="compiler in compilers" :key="compiler.pk" v-else @compile="launch"></compiler>
     </div>
   </div>
 </template>
@@ -21,7 +21,14 @@
     },
     data () {
       return {
-        compilers: []
+        compilers: [],
+        submitted: false
+      }
+    },
+    methods: {
+      launch (command) {
+        this.submitted = true
+        this.$emit('compile', command)
       }
     },
     mounted () {
