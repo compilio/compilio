@@ -52,6 +52,8 @@ def init(request):
     # TODO : Task status to 'pending'
 
     input_files = compiler_object.get_input_files(command)
+    output_files = compiler_object.get_output_files(command)
+    print(output_files)
 
     return JsonResponse({'input_files': input_files, 'task_id': task.id})
 

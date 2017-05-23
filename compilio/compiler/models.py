@@ -55,18 +55,13 @@ class Compiler(models.Model):
             yield stdout
             sys.stdout = old
 
-        code = """
-command = 'pdflatex caca.tex'
-output_files = ''
-matches = re.finditer('[a-zA-Z\/\.0-9]+$', command)
-for match_num, match in enumerate(matches):
-output_files = match.group()
-print(output_files.replace('.tex', '.pdf'))
-        """
+        set_command_code = "command = '" + command + "'\n"
+        code = set_command_code + str(self.output_files_parse_code)
+
         with stdout_io() as s:
             exec(code)
 
-        print("out:", s.getvalue())
+        return s.getvalue()
 
 
 class Server(models.Model):
