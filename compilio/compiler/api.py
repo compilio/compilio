@@ -105,7 +105,7 @@ def upload(request):
 
 
 def save_output_file(task_id, res):
-    filename = 'uploads/tasks/' + task_id + '/output_files/output.pdf'
+    filename = 'uploads/tasks/' + task_id + '/output.zip'
     os.makedirs(os.path.dirname(filename), exist_ok=True)
     with open(filename, 'w+b') as f:
         f.write(res.content)
