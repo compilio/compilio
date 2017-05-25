@@ -62,7 +62,7 @@
                     </div>
                     <div class="col-md-2">
                         <a href="{% url 'task' task.id %}" class="button button-small">Open</a>
-                        <a href="#" class="button button-small button-warning">Remove</a>
+                        <a href="{% url 'delete_task' task.id %}" class="button button-small button-warning">Remove</a>
                     </div>
                 </div>
             </div>
