@@ -29,10 +29,10 @@
       loadTrace () {
         Axios.get('/compiler/task?task_id=' + this.task)
           .then((response) => {
-            this.trace = response.data.output_log
             if (response.data.state !== this.state) {
               location.reload()
             }
+            this.trace = response.data.output_log
           })
       }
     },
