@@ -138,3 +138,13 @@ def task(request):
         __get_save_output_files(task_object)
 
     return JsonResponse(res_json)
+
+
+@csrf_exempt
+def get_output_files(request):
+    try:
+        task_object = Task.objects.get(id=request.GET.get('id'))
+    except Task.DoesNotExist:
+        return JsonResponse({'error': 'task_id not found'})
+
+    return JsonResponse({'wip': 'kek'})
