@@ -129,6 +129,9 @@ class Task(models.Model):
         if res.status_code == 200:
             Task.__save_output_file(self.id, res)
 
+    def output_files_path(self):
+        return Task.get_output_files_path(self.id)
+
     @staticmethod
     def get_output_files_path(task_id):
         return 'uploads/tasks/' + task_id + '/output.zip'

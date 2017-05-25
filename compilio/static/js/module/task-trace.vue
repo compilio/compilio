@@ -1,18 +1,51 @@
 <template>
     <div class="terminal">
-        <p>
-            <span class="line" v-if="trace === ''"><i class="fa fa-refresh fa-spin"></i> Loading execution trace...</span>
+        <p v-if="trace === ''">
+            <span class="line"><i class="fa fa-refresh fa-spin"></i> Loading execution trace...</span>
+        </p>
+        <p v-else>
+            <span class="line" v-for="line in trace.split('\n')" v-if="line !== ''">{{ line }}</span>
         </p>
     </div>
 </template>
 
 <script type="text/javascript">
+  import Axios from 'axios'
+
   export default {
     name: 'drop-area',
     data () {
       return {
-        trace: ''
+        trace: '',
+        task: '',
+        state: ''
       }
+    },
+    beforeMount: function () {
+      this.task = this.$el.attributes['data-task'].value
+      this.state = this.$el.attributes['data-state'].value
+    },
+    methods: {
+      loadTrace () {
+        Axios.get('/compiler/task?task_id=' + this.task)
+          .then((response) => {
+            this.trace = response.data.output_log
+            if (response.data.state !== this.state) {
+              location.reload()
+            }
+          })
+      }
+    },
+    mounted: function () {
+      this.loadTrace()
+
+      if (['PENDING', 'COMPILING'].indexOf(this.state) === -1) {
+        return
+      }
+
+      setInterval(function () {
+        this.loadTrace()
+      }.bind(this), 10000)
     }
   }
 </script>

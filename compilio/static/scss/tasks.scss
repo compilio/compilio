@@ -19,13 +19,3 @@ div.tasks-list {
     }
   }
 }
-
-ul.files-tree,
-ul.files-tree ul {
-  list-style-type: none;
-  padding-left: 20px;
-
-  i.fa {
-    color: $global-link-color;
-  }
-}
