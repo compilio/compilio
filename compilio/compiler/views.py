@@ -1,3 +1,4 @@
+import requests
 from django.shortcuts import render
 
 from .models import Task
@@ -31,3 +32,10 @@ def documentation(request):
 
 def terms(request):
     return render(request, 'compiler/terms.html')
+
+
+def delete_task(request, id):
+    res = requests.get(request.META['wsgi.url_scheme'] + '://'
+                       + request.META['HTTP_HOST'] + '/compiler/delete_task?task_id=' + id)
+    print(res)
+    return tasks(request)
