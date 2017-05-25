@@ -31,8 +31,9 @@
           .then((response) => {
             if (response.data.state !== this.state) {
               location.reload()
+            } else {
+              this.trace = response.data.output_log
             }
-            this.trace = response.data.output_log
           })
       }
     },

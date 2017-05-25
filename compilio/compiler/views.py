@@ -27,3 +27,7 @@ def task(request, id):
 
 def documentation(request):
     return render(request, 'compiler/documentation.html')
+
+
+def terms(request):
+    return render(request, 'compiler/terms.html')

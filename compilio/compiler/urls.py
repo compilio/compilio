@@ -14,5 +14,6 @@ urlpatterns = [
     url(r'^compiler/task$', api.task, name='task'),
     url(r'^compiler/get_output_files', api.get_output_files, name='get_output_files'),
 
-    url(r'^doc', views.documentation, name='documentation'),
+    url(r'^doc$', views.documentation, name='documentation'),
+    url(r'^terms$', views.terms, name='terms'),
 ]
