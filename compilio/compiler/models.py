@@ -88,10 +88,10 @@ class ServerCompiler(models.Model):
 
 class Task(models.Model):
     TASK_STATUS = (
-        ('Pending', 'Pending'),
-        ('Compiling', 'Compiling'),
-        ('Terminated', 'Terminated'),
-        ('Error', 'Error'),
+        ('PENDING', 'PENDING'),
+        ('COMPILING', 'COMPILING'),
+        ('SUCCESS', 'SUCCESS'),
+        ('ERROR', 'ERROR'),
     )
 
     id = models.CharField(primary_key=True, max_length=100, blank=True, unique=True, default=uuid.uuid4)
@@ -99,7 +99,7 @@ class Task(models.Model):
     submitted_date = models.DateTimeField(default=timezone.now)
     terminated_date = models.DateTimeField(default=timezone.now)
     expiry_date = models.DateTimeField(default=timezone.now)
-    status = models.CharField(max_length=10, choices=TASK_STATUS, default='Pending')
+    status = models.CharField(max_length=10, choices=TASK_STATUS, default='PENDING')
 
     inputs = models.ManyToManyField(Folder, related_name='inputs')
     outputs = models.ManyToManyField(Folder, related_name='outputs')
