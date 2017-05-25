@@ -133,8 +133,12 @@ div.terminal {
   font-family: monospace;
   margin-bottom: 10px;
 
-  span.line::before {
-    content: '$ ';
+  span.line {
+    display: block;
+
+    &::before {
+      content: '$ ';
+    }
   }
 
   span.comment {
