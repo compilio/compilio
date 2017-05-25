@@ -45,7 +45,7 @@
 
       setInterval(function () {
         this.loadTrace()
-      }.bind(this), 10000)
+      }.bind(this), 3000)
     }
   }
 </script>

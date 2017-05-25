@@ -36,41 +36,30 @@
     </div>
 
     <div class="tasks-list">
-        <div class="card">
-            <div class="row card-container">
-                <div class="col-md-2"><span class="label label-success"><i class="fa fa-check"></i> Finished</span></div>
-                <div class="col-md-2">PDF LaTeX</div>
-                <div class="col-md-3">Compiled 3 months ago</div>
-                <div class="col-md-3"><a href="#" class="button button-info button-small"><i class="fa fa-cloud-download"></i> Download compiled files</a></div>
-                <div class="col-md-2">
-                    <a href="{% url 'task' 1 %}" class="button button-small">Open</a>
-                    <a href="#" class="button button-small button-warning">Remove</a>
+        {% load humanize %}
+        {% for task in tasks %}
+            <div class="card">
+                <div class="row card-container">
+                    <div class="col-md-2">
+                        <span class="label label-{{ task.status|lower }}"><i class="fa fa-check"></i> {{ task.status|lower }}</span>
+                    </div>
+                    <div class="col-md-2">{{ task.compiler.title }}</div>
+                    <div class="col-md-3">
+                        {{ task.submitted_date|naturaltime }}
+                    </div>
+                    <div class="col-md-3">
+                        {% if task.status == 'SUCCESS' %}
+                            <a href="{{ task.output_files_path }}" class="button button-info button-small"><i class="fa fa-cloud-download"></i> Download compiled files</a>
+                        {% else %}
+                            &bull;
+                        {% endif %}
+                    </div>
+                    <div class="col-md-2">
+                        <a href="{% url 'task' task.id %}" class="button button-small">Open</a>
+                        <a href="#" class="button button-small button-warning">Remove</a>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="card">
-            <div class="row card-container">
-                <div class="col-md-2"><span class="label label-error"><i class="fa fa-times"></i> Error</span></div>
-                <div class="col-md-2">PDF LaTeX</div>
-                <div class="col-md-3">Compiled 3 months ago</div>
-                <div class="col-md-3">&bull;</div>
-                <div class="col-md-2">
-                    <a href="{% url 'task' 2 %}" class="button button-small">Open</a>
-                    <a href="#" class="button button-small button-warning">Remove</a>
-                </div>
-            </div>
-        </div>
-        <div class="card">
-            <div class="row card-container">
-                <div class="col-md-2"><span class="label label-info"><i class="fa fa-circle-o-notch fa-spin"></i> Running</span></div>
-                <div class="col-md-2">PDF LaTeX</div>
-                <div class="col-md-3">Compiled 3 months ago</div>
-                <div class="col-md-3">&bull;</div>
-                <div class="col-md-2">
-                    <a href="{% url 'task' 3 %}" class="button button-small">Open</a>
-                    <a href="#" class="button button-small button-warning">Remove</a>
-                </div>
-            </div>
-        </div>
+        {% endfor %}
     </div>
 {% endblock %}

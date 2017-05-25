@@ -8,7 +8,12 @@ def index(request):
 
 
 def tasks(request):
-    return render(request, 'compiler/tasks.html')
+    tasks = []
+
+    if request.session is not None:
+        tasks = Task.objects.filter(session_id=request.session.session_key)
+
+    return render(request, 'compiler/tasks.html', {'tasks': tasks})
 
 
 def task(request, id):

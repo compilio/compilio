@@ -50,6 +50,10 @@ def init(request):
         return HttpResponse('No compiler found', status=404)
 
     task = Task(command=command, compiler=compiler_object)
+
+    if request.session is not None:
+        task.session_id = request.session.session_key
+
     task.save()
 
     input_files = compiler_object.get_input_files(command)

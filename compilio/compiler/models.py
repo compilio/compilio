@@ -100,6 +100,7 @@ class Task(models.Model):
     terminated_date = models.DateTimeField(default=timezone.now)
     expiry_date = models.DateTimeField(default=timezone.now)
     status = models.CharField(max_length=10, choices=TASK_STATUS, default='PENDING')
+    session_id = models.CharField(max_length=255, default='', null=True)
 
     inputs = models.ManyToManyField(Folder, related_name='inputs')
     outputs = models.ManyToManyField(Folder, related_name='outputs')
