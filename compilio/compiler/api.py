@@ -1,3 +1,4 @@
+import mimetypes
 import os
 
 import requests
@@ -5,7 +6,6 @@ from django.core import serializers
 from django.core.files.storage import FileSystemStorage
 from django.http import HttpResponse
 from django.http import JsonResponse
-from django.utils.encoding import smart_str
 from django.views.decorators.csrf import csrf_exempt
 
 from compilio.compiler.models import Compiler, ServerCompiler
@@ -127,10 +127,14 @@ def task(request):
 
 
 def serve_file(file_path):
-    response = HttpResponse(
-        content_type='application/force-download')
-    response['Content-Disposition'] = 'attachment; filename=%s' % smart_str(os.path.basename(file_path))
-    response['X-Sendfile'] = smart_str(file_path)
+    print(file_path)
+    with open(file_path, 'rb') as f:
+        data = f.read()
+
+    response = HttpResponse(data, content_type=mimetypes.guess_type(file_path)[0])
+    response['Content-Disposition'] = "attachment; filename={0}".format(os.path.basename(file_path))
+    response['Content-Length'] = os.path.getsize(file_path)
+
     return response
 
 
