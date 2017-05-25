@@ -41,13 +41,14 @@
 
         Axios.post('/compiler/init', params)
           .then((response) => {
+            let taskId = response.data.task_id
             let data = new FormData()
-            data.append('task_id', response.data.task_id)
+            data.append('task_id', taskId)
             data.append('0', this.files[0])
 
             Axios.post('/compiler/upload', data)
-              .then((response) => {
-                window.location.href = '/task/' + response.data.task_id
+              .then(() => {
+                window.location.href = '/task/' + taskId
               })
           })
       }
