@@ -111,6 +111,14 @@ def save_output_file(task_id, res):
         f.write(res.content)
 
 
+def __get_save_output_files(task_object):
+    res = requests.get(task_object.server_compiler.server.ip + ':'
+                       + str(task_object.server_compiler.port)
+                       + '/get_output_files?id=' + task_object.id)
+    if res.status_code == 200:
+        save_output_file(task_object.id, res)
+
+
 @csrf_exempt
 def task(request):
     try:
@@ -127,11 +135,16 @@ def task(request):
         return JsonResponse(res_json)
 
     if res_json['state'] == 'SUCCESS':
-        print('request runner and save file')
-        res = requests.get(task_object.server_compiler.server.ip + ':'
-                           + str(task_object.server_compiler.port)
-                           + '/get_output_files?id=' + task_object.id)
-        if res.status_code == 200:
-            save_output_file(task_object.id, res)
+        __get_save_output_files(task_object)
 
     return JsonResponse(res_json)
+
+
+@csrf_exempt
+def get_output_files(request):
+    try:
+        task_object = Task.objects.get(id=request.GET.get('id'))
+    except Task.DoesNotExist:
+        return JsonResponse({'error': 'task_id not found'})
+
+    return JsonResponse({'wip': 'kek'})
