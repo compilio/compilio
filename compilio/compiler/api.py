@@ -5,6 +5,7 @@ from django.core import serializers
 from django.core.files.storage import FileSystemStorage
 from django.http import HttpResponse
 from django.http import JsonResponse
+from django.utils.encoding import smart_str
 from django.views.decorators.csrf import csrf_exempt
 
 from compilio.compiler.models import Compiler, ServerCompiler
@@ -104,21 +105,6 @@ def upload(request):
     return JsonResponse({'ok': uploaded_file_url})
 
 
-def save_output_file(task_id, res):
-    filename = 'uploads/tasks/' + task_id + '/output.zip'
-    os.makedirs(os.path.dirname(filename), exist_ok=True)
-    with open(filename, 'w+b') as f:
-        f.write(res.content)
-
-
-def __get_save_output_files(task_object):
-    res = requests.get(task_object.server_compiler.server.ip + ':'
-                       + str(task_object.server_compiler.port)
-                       + '/get_output_files?id=' + task_object.id)
-    if res.status_code == 200:
-        save_output_file(task_object.id, res)
-
-
 @csrf_exempt
 def task(request):
     try:
@@ -135,7 +121,7 @@ def task(request):
         return JsonResponse(res_json)
 
     if res_json['state'] == 'SUCCESS':
-        __get_save_output_files(task_object)
+        task_object.get_save_output_files()
 
     return JsonResponse(res_json)
 
@@ -147,4 +133,11 @@ def get_output_files(request):
     except Task.DoesNotExist:
         return JsonResponse({'error': 'task_id not found'})
 
-    return JsonResponse({'wip': 'kek'})
+    path = Task.get_output_files_path(task_object.id)
+
+    response = HttpResponse(
+        content_type='application/force-download')
+    response['Content-Disposition'] = 'attachment; filename=%s' % smart_str(os.path.basename(path))
+    response['X-Sendfile'] = smart_str(path)
+
+    return response

@@ -1,9 +1,11 @@
 import contextlib
 import io
+import os
 import re
 import sys
 import uuid
 
+import requests
 from django.db import models
 from django.utils import timezone
 
@@ -103,3 +105,21 @@ class Task(models.Model):
     outputs = models.ManyToManyField(Folder, related_name='outputs')
     compiler = models.ForeignKey(Compiler, null=True, blank=True)
     server_compiler = models.ForeignKey(ServerCompiler, null=True, blank=True)
+
+    @staticmethod
+    def __save_output_file(task_id, res):
+        filename = Task.get_output_files_path(task_id)
+        os.makedirs(os.path.dirname(filename), exist_ok=True)
+        with open(filename, 'w+b') as f:
+            f.write(res.content)
+
+    def get_save_output_files(self):
+        res = requests.get(self.server_compiler.server.ip + ':'
+                           + str(self.server_compiler.port)
+                           + '/get_output_files?id=' + self.id)
+        if res.status_code == 200:
+            Task.__save_output_file(self.id, res)
+
+    @staticmethod
+    def get_output_files_path(task_id):
+        return 'uploads/tasks/' + task_id + '/output.zip'
