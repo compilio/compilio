@@ -111,6 +111,14 @@ def save_output_file(task_id, res):
         f.write(res.content)
 
 
+def __get_save_output_files(task_object):
+    res = requests.get(task_object.server_compiler.server.ip + ':'
+                       + str(task_object.server_compiler.port)
+                       + '/get_output_files?id=' + task_object.id)
+    if res.status_code == 200:
+        save_output_file(task_object.id, res)
+
+
 @csrf_exempt
 def task(request):
     try:
@@ -127,11 +135,6 @@ def task(request):
         return JsonResponse(res_json)
 
     if res_json['state'] == 'SUCCESS':
-        print('request runner and save file')
-        res = requests.get(task_object.server_compiler.server.ip + ':'
-                           + str(task_object.server_compiler.port)
-                           + '/get_output_files?id=' + task_object.id)
-        if res.status_code == 200:
-            save_output_file(task_object.id, res)
+        __get_save_output_files(task_object)
 
     return JsonResponse(res_json)
