@@ -95,12 +95,9 @@ def upload(request):
                               'output_files': output_files,
                               'bash': task_object.server_compiler.compiler.docker_prefix_command + ' ' + task_object.command},
                         files={'0': open(uploaded_file_url, 'rb')})
-    # TODO : param task_id, input_files
 
-    # TODO : Create files rows in bd and attach it to Task object
-    # TODO : Get build process (here or in 'init' endpoint)
-    # TODO : Send process_build and input files to compiler-runner
-    # TODO : Task status to 'Sent to runner'
+    task_object.status = 'Compiling'
+    task_object.save()
 
     return JsonResponse({'ok': uploaded_file_url})
 
