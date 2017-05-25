@@ -1,7 +1,7 @@
 <template>
   <div>
     <label for="drop-area">Compile your files by dropping them on the following area:</label>
-    <input id="drop-area" type="file" class="drop-area" multiple @change="onFileChange" />
+    <input id="drop-area" type="file" class="drop-area" multiple @change="onFileChange" required />
   </div>
 </template>
 

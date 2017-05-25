@@ -26,6 +26,12 @@
     },
     methods: {
       launch (command) {
+        if (this.files === null || this.files.length === 0) {
+          this.$refs.list.failure()
+
+          return
+        }
+
         for (let i = 0; i < this.files.length; i++) {
           command += ' ' + this.files[i].name
         }
@@ -34,8 +40,15 @@
         params.append('command', command)
 
         Axios.post('/compiler/init', params)
-          .then(function (response) {
-            window.location.href = '/task/' + response.data.task_id
+          .then((response) => {
+            let data = new FormData()
+            data.append('task_id', response.data.task_id)
+            data.append('0', this.files[0])
+
+            Axios.post('/compiler/upload', data)
+              .then((response) => {
+                window.location.href = '/task/' + response.data.task_id
+              })
           })
       }
     }

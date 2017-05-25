@@ -2,8 +2,8 @@
   <div>
     <p>And selecting the compiler to run:</p>
     <div class="row">
-      <div class="col-lg-12 centered" v-if="compilers.length === 0 || submitted">
-        <i class="fa fa-circle-o-notch fa-spin"></i> Waiting for compilers...
+      <div class="col-lg-12 centered" v-if="loadingMessage.length !== 0">
+        <i class="fa fa-circle-o-notch fa-spin"></i> {{ loadingMessage }}
       </div>
       <compiler :compiler="compiler.fields" v-for="compiler in compilers" :key="compiler.pk" v-else @compile="launch"></compiler>
     </div>
@@ -22,19 +22,23 @@
     data () {
       return {
         compilers: [],
-        submitted: false
+        loadingMessage: 'Loading compilers...'
       }
     },
     methods: {
       launch (command) {
-        this.submitted = true
+        this.loadingMessage = 'Sending data...'
         this.$emit('compile', command)
+      },
+      failure () {
+        this.loadingMessage = ''
       }
     },
     mounted () {
       Axios.get('/compiler/list')
         .then((response) => {
           this.compilers = JSON.parse(response.data.compilers)
+          this.loadingMessage = ''
         })
     }
   }
