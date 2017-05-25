@@ -117,10 +117,10 @@ main > div.card:first-of-type {
   &.label-warning {
     background: $global-warning-color;
   }
-  &.label-info {
+  &.label-info, &.label-pending {
     background: $global-info-color;
   }
-  &.label-error {
+  &.label-error, &.label-failed {
     background: $global-error-color;
   }
 }

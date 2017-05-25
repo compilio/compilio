@@ -41,7 +41,13 @@
             <div class="card">
                 <div class="row card-container">
                     <div class="col-md-2">
-                        <span class="label label-{{ task.status|lower }}"><i class="fa fa-check"></i> {{ task.status|lower }}</span>
+                        <span class="label label-{{ task.status|lower }}">
+                            {% if task.status == 'SUCCESS' %}<i class="fa fa-check"></i>
+                            {% elif task.status == 'FAILED' %}<i class="fa fa-times"></i>
+                            {% else %}<i class="fa fa-circle-o-notch fa-spin"></i>
+                            {% endif %}
+                            {{ task.status|lower }}
+                        </span>
                     </div>
                     <div class="col-md-2">{{ task.compiler.title }}</div>
                     <div class="col-md-3">
