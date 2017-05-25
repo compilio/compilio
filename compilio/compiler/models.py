@@ -94,7 +94,16 @@ class Task(models.Model):
         ('ERROR', 'ERROR'),
     )
 
-    id = models.CharField(primary_key=True, max_length=100, blank=True, unique=True, default=uuid.uuid4)
+    @staticmethod
+    def generate_id():
+        while True:
+            try:
+                unique_id = uuid.uuid4().hex[:16].upper()
+                Task.objects.get(id=unique_id)
+            except Task.DoesNotExist:
+                return unique_id
+
+    id = models.CharField(primary_key=True, max_length=100, blank=True, unique=True, default=lambda: Task.generate_id())
     command = models.CharField(max_length=128)
     submitted_date = models.DateTimeField(default=timezone.now)
     terminated_date = models.DateTimeField(default=timezone.now)
