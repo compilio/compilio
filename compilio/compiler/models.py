@@ -108,7 +108,7 @@ class Task(models.Model):
 
     @staticmethod
     def __save_output_file(task_id, res):
-        filename = 'uploads/tasks/' + task_id + '/output.zip'
+        filename = Task.get_output_files_path(task_id)
         os.makedirs(os.path.dirname(filename), exist_ok=True)
         with open(filename, 'w+b') as f:
             f.write(res.content)
@@ -119,3 +119,7 @@ class Task(models.Model):
                            + '/get_output_files?id=' + self.id)
         if res.status_code == 200:
             Task.__save_output_file(self.id, res)
+
+    @staticmethod
+    def get_output_files_path(task_id):
+        return 'uploads/tasks/' + task_id + '/output.zip'

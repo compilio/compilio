@@ -5,6 +5,7 @@ from django.core import serializers
 from django.core.files.storage import FileSystemStorage
 from django.http import HttpResponse
 from django.http import JsonResponse
+from django.utils.encoding import smart_str
 from django.views.decorators.csrf import csrf_exempt
 
 from compilio.compiler.models import Compiler, ServerCompiler
@@ -132,4 +133,11 @@ def get_output_files(request):
     except Task.DoesNotExist:
         return JsonResponse({'error': 'task_id not found'})
 
-    return JsonResponse({'wip': 'kek'})
+    path = Task.get_output_files_path(task_object.id)
+
+    response = HttpResponse(
+        content_type='application/force-download')
+    response['Content-Disposition'] = 'attachment; filename=%s' % smart_str(os.path.basename(path))
+    response['X-Sendfile'] = smart_str(path)
+
+    return response
