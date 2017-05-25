@@ -110,7 +110,7 @@ def task(request):
     try:
         task_object = Task.objects.get(id=request.GET.get('id'))
     except Task.DoesNotExist:
-        return JsonResponse({'error': 'task_id not found'})
+        return JsonResponse({'error': 'task_id not found'}, status=404)
 
     res = requests.get(task_object.server_compiler.server.ip + ':'
                        + str(task_object.server_compiler.port) + '/task?id=' + task_object.id)
