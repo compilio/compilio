@@ -9,7 +9,7 @@
         <div class="container">
             <h2>
                 <span class="label label-{{ task.status|lower }}">{{ task.status|lower }}</span>
-                Task n°{{ task.id }}
+                Task {{ task.id }}
             </h2>
             <p>
                 This task was a {{ task.compiler.title }} compilation launched {{ task.submitted_date|naturaltime }}.
