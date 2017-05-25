@@ -108,7 +108,7 @@ def upload(request):
 @csrf_exempt
 def task(request):
     try:
-        task_object = Task.objects.get(id=request.GET.get('id'))
+        task_object = Task.objects.get(id=request.GET.get('task_id'))
     except Task.DoesNotExist:
         return JsonResponse({'error': 'task_id not found'}, status=404)
 
@@ -141,9 +141,9 @@ def serve_file(file_path):
 @csrf_exempt
 def get_output_files(request):
     try:
-        task_object = Task.objects.get(id=request.GET.get('id'))
+        task_object = Task.objects.get(id=request.GET.get('task_id'))
     except Task.DoesNotExist:
-        return JsonResponse({'error': 'task_id not found'})
+        return JsonResponse({'error': 'task_id not found'}, status=404)
 
     path = Task.get_output_files_path(task_object.id)
 
