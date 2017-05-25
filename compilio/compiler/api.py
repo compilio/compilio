@@ -52,8 +52,6 @@ def init(request):
     task = Task(command=command, compiler=compiler_object)
     task.save()
 
-    # TODO : Task status to 'pending'
-
     input_files = compiler_object.get_input_files(command)
 
     return JsonResponse({'input_files': input_files, 'task_id': task.id})
@@ -96,7 +94,7 @@ def upload(request):
                               'bash': task_object.server_compiler.compiler.docker_prefix_command + ' ' + task_object.command},
                         files={'0': open(uploaded_file_url, 'rb')})
 
-    task_object.status = 'Compiling'
+    task_object.status = 'COMPILING'
     task_object.save()
 
     return JsonResponse({'ok': uploaded_file_url})
@@ -119,7 +117,7 @@ def task(request):
 
     if res_json['state'] == 'SUCCESS':
         task_object.get_save_output_files()
-        task_object.status = 'Terminated'
+        task_object.status = 'SUCCESS'
         task_object.save()
 
     return JsonResponse(res_json)
