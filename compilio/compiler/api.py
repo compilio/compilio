@@ -126,6 +126,14 @@ def task(request):
     return JsonResponse(res_json)
 
 
+def serve_file(file_path):
+    response = HttpResponse(
+        content_type='application/force-download')
+    response['Content-Disposition'] = 'attachment; filename=%s' % smart_str(os.path.basename(file_path))
+    response['X-Sendfile'] = smart_str(file_path)
+    return response
+
+
 @csrf_exempt
 def get_output_files(request):
     try:
@@ -135,9 +143,4 @@ def get_output_files(request):
 
     path = Task.get_output_files_path(task_object.id)
 
-    response = HttpResponse(
-        content_type='application/force-download')
-    response['Content-Disposition'] = 'attachment; filename=%s' % smart_str(os.path.basename(path))
-    response['X-Sendfile'] = smart_str(path)
-
-    return response
+    return serve_file(path)
