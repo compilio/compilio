@@ -6,7 +6,7 @@ from . import api
 urlpatterns = [
     url(r'^$', views.index, name='index'),
     url(r'^tasks$', views.tasks, name='tasks'),
-    url(r'^task/(?P<id>[a-f0-9-]+)$', views.task, name='task'),
+    url(r'^task/(?P<id>[A-Z0-9-]+)$', views.task, name='task'),
 
     url(r'^compiler/list$', api.list_compilers, name='list_compilers'),
     url(r'^compiler/init$', api.init, name='init'),
