@@ -30,10 +30,15 @@ To be able to run the project properly, you need to run the Webpack dev server f
 npm run server
 ```
 
+You also need to run migrations and load fixtures:
+
+```sh
+./bin/reset
+```
+
 You can then run the python built-in server:
 
 ```sh
-python manage.py migrate
 python manage.py runserver
 ```
 
