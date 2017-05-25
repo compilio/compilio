@@ -122,6 +122,8 @@ def task(request):
 
     if res_json['state'] == 'SUCCESS':
         task_object.get_save_output_files()
+        task_object.status = 'Terminated'
+        task_object.save()
 
     return JsonResponse(res_json)
 
