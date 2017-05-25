@@ -159,6 +159,9 @@ def delete_task(request):
     except Task.DoesNotExist:
         return JsonResponse({'error': 'task_id not found'}, status=404)
 
+    if request.session.session_key != task.session_id:
+        return JsonResponse({'error': 'You dont own this task'}, status=404)
+
     shutil.rmtree('uploads/tasks/' + task_object.id + '/')
     task_object.delete()
 
