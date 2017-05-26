@@ -34,7 +34,7 @@ export default {
         loader: ExtractTextPlugin.extract('css-loader!sass-loader')
       },
       {
-        test: /\.(png|jpe?g|gif|svg|ttf|woff2?|eot)(\?.*)?$/,
+        test: /\.(png|jpe?g|gif|svg|ttf|woff2?|eot|ico)(\?.*)?$/,
         loader: 'url-loader',
         query: {
           limit: 10000,
