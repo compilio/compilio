@@ -9,7 +9,7 @@
         <div class="container">
             <h2>
                 <span class="label label-{{ task.status|lower }}">{{ task.status|lower }}</span>
-                Task n°{{ task.id }}
+                Task {{ task.id }}
             </h2>
             <p>
                 This task was a {{ task.compiler.title }} compilation launched {{ task.submitted_date|naturaltime }}.
@@ -24,7 +24,7 @@
             <div class="col-lg-12">
                 <p class="pull-right">
                     {% if task.status == 'SUCCESS' %}
-                        <a href=" {{ request.get_host }}/compiler/get_output_files?task_id={{ task.id }}" class="button button-info"><i class="fa fa-cloud-download"></i> Download compiled files</a>
+                        <a href="http://{{ request.get_host }}/compiler/get_output_files?task_id={{ task.id }}" class="button button-info"><i class="fa fa-cloud-download"></i> Download compiled files</a>
                     {% endif %}
                     <a href="{% url 'tasks' %}" class="button"><i class="fa fa-list"></i> My tasks</a>
                 </p>

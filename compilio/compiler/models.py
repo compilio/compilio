@@ -98,7 +98,7 @@ class Task(models.Model):
     def generate_id():
         while True:
             try:
-                unique_id = uuid.uuid4().hex[:16].upper()
+                unique_id = uuid.uuid4().hex[:16]
                 Task.objects.get(id=unique_id)
             except Task.DoesNotExist:
                 return unique_id
