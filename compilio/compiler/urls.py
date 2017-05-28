@@ -2,6 +2,7 @@ from django.conf.urls import url
 
 from . import views
 from . import api
+from .feeds import LatestEntriesFeed
 
 urlpatterns = [
     url(r'^$', views.index, name='index'),
@@ -15,6 +16,8 @@ urlpatterns = [
     url(r'^compiler/task$', api.task, name='task'),
     url(r'^compiler/get_output_files', api.get_output_files, name='get_output_files'),
     url(r'^compiler/delete_task', api.delete_task, name='delete_task'),
+
+    url(r'^tasks/feed$', LatestEntriesFeed()),
 
     url(r'^doc$', views.documentation, name='documentation'),
     url(r'^terms$', views.terms, name='terms'),
