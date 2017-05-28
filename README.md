@@ -44,10 +44,17 @@ python manage.py runserver
 
 ### Deploying
 
-The assets must be compiled using the following command:
+You may use the basic deployment script:
 
 ```sh
-npm run compile
+sudo pip install virtualenv
+./bin/deploy
+```
+
+Close your terminal instance when the following line appears:
+
+```
+nohup: ignoring input and appending output to ‘nohup.out’
 ```
 
 ### Testing
