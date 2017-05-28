@@ -25,7 +25,10 @@
                         later.
                     </p>
                 {% else %}
-                    <p class="pull-right"><a href="{% url 'logout' %}" class="button"><i class="fa fa-sign-out"></i> Log out</a></p>
+                    <p class="pull-right">
+                        <a href="{% url 'logout' %}" class="button"><i class="fa fa-sign-out"></i> Log out</a>
+                        <a href="{% url 'tasks_feed' %}" class="button button-warning"><i class="fa fa-rss"></i> RSS Feed</a>
+                    </p>
                     <h3>Hello {{ request.user.username }}!</h3>
                     <p>
                         You are authenticated. You don't have reached the storage limit.
