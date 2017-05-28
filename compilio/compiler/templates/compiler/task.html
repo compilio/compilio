@@ -33,7 +33,7 @@
                     The script <span class="label">{{ task.command }}</span>
                     {% if task.status == 'PENDING' %}will be
                     {% elif task.status == 'RUNNING' %}is
-                    {% else %}was{% endif %}
+                    {% else %}was {% if task.status == 'FAILED' %}not{% endif %}{% endif %}
                     executed.
                 </p>
             </div>

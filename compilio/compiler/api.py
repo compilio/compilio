@@ -112,8 +112,14 @@ def task(request):
     except Task.DoesNotExist:
         return JsonResponse({'error': 'task_id not found'}, status=404)
 
+    if task_object.server_compiler is None:
+        return send_failure(task_object)
+
     res = requests.get(task_object.server_compiler.server.ip + ':'
                        + str(task_object.server_compiler.port) + '/task?id=' + task_object.id)
+
+    if res.status_code != 200:
+        return send_failure(task_object)
 
     res_json = res.json()
 
@@ -126,6 +132,13 @@ def task(request):
         task_object.save()
 
     return JsonResponse(res_json)
+
+
+def send_failure(task_object):
+    task_object.status = 'FAILED'
+    task_object.save()
+
+    return JsonResponse({'state': 'FAILED', 'output_log': '# Task was not executed'})
 
 
 def serve_file(file_path):
