@@ -20,13 +20,13 @@
   pk: 3
   fields:
     name: pdflatex
-    regex: '[a-zA-Z\/\.0-9]+$'
+    regex: '.*$'
     docker_prefix_command: 'docker run --rm -i --net=none -v "$PWD":/data blang/latex'
     title: PDF LaTeX
     description: Compile .tex files using PDF LaTeX
     icon: file-pdf-o
     output_files_parse_code: |2+
-      matches = re.finditer('[a-zA-Z\/\.0-9]+$', command)
+      matches = re.finditer('.*$', command)
       for match_num, match in enumerate(matches):
         output_files = match.group()
       print(output_files.replace('.tex', '.pdf'))
