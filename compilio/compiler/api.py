@@ -175,7 +175,7 @@ def delete_task(request):
     if request.session.session_key != task_object.session_id:
         return JsonResponse({'error': 'You dont own this task'}, status=404)
 
-    shutil.rmtree('uploads/tasks/' + task_object.id + '/')
+    shutil.rmtree('uploads/tasks/' + task_object.id + '/', ignore_errors=True)
     task_object.delete()
 
     return JsonResponse({'success': 'success'})
