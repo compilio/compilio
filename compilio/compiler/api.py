@@ -50,9 +50,7 @@ def init(request):
     except Compiler.DoesNotExist:
         return HttpResponse('No compiler found', status=404)
 
-    task = Task()
-    task.command = command
-    task.compiler = compiler_object
+    task = Task(command=command, compiler_object=compiler_object)
 
     if request.session is not None:
         task.session_id = request.session.session_key
