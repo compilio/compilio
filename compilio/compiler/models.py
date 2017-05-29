@@ -4,8 +4,8 @@ import os
 import re
 import sys
 import uuid
-
 import requests
+from django.contrib.auth.models import User
 from django.db import models
 from django.utils import timezone
 
@@ -86,6 +86,10 @@ class ServerCompiler(models.Model):
     status = models.CharField(max_length=5, choices=COMPILER_STATUS)
 
 
+def generate_id():
+    return uuid.uuid4().hex[:16]
+
+
 class Task(models.Model):
     TASK_STATUS = (
         ('PENDING', 'PENDING'),
@@ -94,22 +98,14 @@ class Task(models.Model):
         ('ERROR', 'ERROR'),
     )
 
-    @staticmethod
-    def generate_id():
-        while True:
-            try:
-                unique_id = uuid.uuid4().hex[:16]
-                Task.objects.get(id=unique_id)
-            except Task.DoesNotExist:
-                return unique_id
-
-    id = models.CharField(primary_key=True, max_length=100, blank=True, unique=True, default=lambda: Task.generate_id())
+    id = models.CharField(primary_key=True, max_length=100, blank=True, unique=True, default=generate_id())
     command = models.CharField(max_length=128)
     submitted_date = models.DateTimeField(default=timezone.now)
     terminated_date = models.DateTimeField(default=timezone.now)
     expiry_date = models.DateTimeField(default=timezone.now)
     status = models.CharField(max_length=10, choices=TASK_STATUS, default='PENDING')
     session_id = models.CharField(max_length=255, default='', null=True)
+    owner = models.OneToOneField(User, null=True)
 
     inputs = models.ManyToManyField(Folder, related_name='inputs')
     outputs = models.ManyToManyField(Folder, related_name='outputs')
