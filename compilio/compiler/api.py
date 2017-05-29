@@ -168,7 +168,7 @@ def get_output_files(request):
 
     path = Task.get_output_files_path(task_object.id)
 
-    return serve_file(path, task_object.compiler.name + '_' + task_object.id)
+    return serve_file(path, task_object.compiler.name + '_' + task_object.id + '.zip')
 
 
 @csrf_exempt
