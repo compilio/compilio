@@ -30,8 +30,11 @@ before_script:
   - sleep 3
   - git clone https://github.com/compilio/compilio-runner.git
   - ./compilio-runner/bin/deploy &
+  - RUNNER_PID=$!
+  - sleep 10
 
 script:
   - ./manage.py test
   - ./manage.py test functional
   - npm run lint
+  - kill ${RUNNER_PID}
