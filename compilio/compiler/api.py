@@ -141,13 +141,13 @@ def send_failure(task_object):
     return JsonResponse({'state': 'FAILED', 'output_log': '# Task was not executed'})
 
 
-def serve_file(file_path):
+def serve_file(file_path, name):
     print(file_path)
     with open(file_path, 'rb') as f:
         data = f.read()
 
     response = HttpResponse(data, content_type=mimetypes.guess_type(file_path)[0])
-    response['Content-Disposition'] = "attachment; filename={0}".format(os.path.basename(file_path))
+    response['Content-Disposition'] = "attachment; filename={0}".format(name)
     response['Content-Length'] = os.path.getsize(file_path)
 
     return response
@@ -162,7 +162,7 @@ def get_output_files(request):
 
     path = Task.get_output_files_path(task_object.id)
 
-    return serve_file(path)
+    return serve_file(path, task_object.compiler.name + '_' + task_object.id)
 
 
 @csrf_exempt
