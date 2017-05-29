@@ -1,5 +1,6 @@
 import requests
 from django.shortcuts import render, redirect
+from django.http import Http404
 
 from .models import Task
 
@@ -11,15 +12,24 @@ def index(request):
 def tasks(request):
     tasks = []
 
-    if request.session.session_key is not None:
+    if request.user.is_authenticated():
+        tasks = Task.objects.filter(owners__id=request.user.id)
+    elif request.session.session_key is not None:
         tasks = Task.objects.filter(session_id=request.session.session_key)
 
     return render(request, 'compiler/tasks.html', {'tasks': tasks})
 
 
 def task(request, id):
-    # Todo: add voter to check if the task can be read by current (or anonymous) user
     task = Task.objects.get(id=id)
+
+    if task.owners.count() > 0:
+        if not task.owners.filter(id=request.user.id).exists():
+            raise Http404()
+    else:
+        if request.user.is_authenticated():
+            task.owners.add(request.user)
+            task.save()
 
     if request.session.session_key is not None:
         task.session_id = request.session.session_key

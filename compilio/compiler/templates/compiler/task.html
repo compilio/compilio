@@ -36,6 +36,20 @@
                     {% else %}was {% if task.status == 'FAILED' %}not{% endif %}{% endif %}
                     executed.
                 </p>
+                <p>
+                    {% if not request.user.is_authenticated %}
+                        <span class="warning">
+                            This task is not linked to your account. It may be claimed by anyone.
+                            <a class="button button-small button-warning" href="{% url 'login' %}">Log in</a> or
+                            <a class="button button-small button-warning" href="{% url 'register' %}">register</a>
+                            and get back to this page to save this task and prevent anyone but you to see it.
+                        </span>
+                    {% else %}
+                        <span class="success">
+                            This task has been saved to your account.
+                        </span>
+                    {% endif %}
+                </p>
             </div>
         </div>
     </div>
