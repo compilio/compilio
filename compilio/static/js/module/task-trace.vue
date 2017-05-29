@@ -1,7 +1,7 @@
 <template>
     <div class="terminal">
         <p v-if="trace === ''">
-            <span class="line"><i class="fa fa-refresh fa-spin"></i> Loading execution trace...</span>
+            <span class="line"><i class="fa fa-refresh fa-spin"></i> Waiting for execution trace...</span>
         </p>
         <p v-else>
             <span class="line" v-for="line in trace.split('\n')" v-if="line !== ''">{{ line }}</span>

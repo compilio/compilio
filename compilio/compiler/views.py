@@ -11,7 +11,7 @@ def index(request):
 def tasks(request):
     tasks = []
 
-    if request.session is not None:
+    if request.session.session_key is not None:
         tasks = Task.objects.filter(session_id=request.session.session_key)
 
     return render(request, 'compiler/tasks.html', {'tasks': tasks})
@@ -21,7 +21,9 @@ def task(request, id):
     # Todo: add voter to check if the task can be read by current (or anonymous) user
     task = Task.objects.get(id=id)
 
-    print(task)
+    if request.session.session_key is not None:
+        task.session_id = request.session.session_key
+        task.save()
 
     return render(request, 'compiler/task.html', {'task': task})
 

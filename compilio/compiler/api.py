@@ -47,7 +47,6 @@ def init(request):
     try:
         compiler_object = Compiler.objects.get(name=compiler_name)
     except Compiler.DoesNotExist:
-        print('No compiler found')
         return HttpResponse('No compiler found', status=404)
 
     task = Task(command=command, compiler=compiler_object)
