@@ -28,6 +28,8 @@ before_script:
   - export PATH=$PATH:$PWD/chromedriver
   - "sh -e /etc/init.d/xvfb start"
   - sleep 3
+  - git clone https://github.com/compilio/compilio-runner.git
+  - ./compilio-runner/bin/deploy &
 
 script:
   - ./manage.py test
