@@ -94,13 +94,13 @@ def upload(request):
     output_files = server_compiler.compiler.get_output_files(task_object.command)
 
     try:
-        res = requests.post(server_compiler.server.ip + ':' + str(server_compiler.port) + '/compile',
-                            data={'task_id': task_id,
-                                  'output_files': output_files,
-                                  'bash': task_object.server_compiler.compiler.docker_prefix_command + ' ' + task_object.command},
-                            files={'0': open(uploaded_file_url, 'rb')})
+        requests.post(server_compiler.server.ip + ':' + str(server_compiler.port) + '/compile',
+                      data={'task_id': task_id,
+                            'output_files': output_files,
+                            'bash': task_object.server_compiler.compiler.docker_prefix_command + ' ' + task_object.command},
+                      files={'0': open(uploaded_file_url, 'rb')})
     except ConnectionError:
-        return JsonResponse({'error': 'Connection error'}, status=404)
+        return send_failure(task_object)
 
     task_object.status = 'COMPILING'
     task_object.save()
@@ -122,7 +122,7 @@ def task(request):
         res = requests.get(task_object.server_compiler.server.ip + ':'
                            + str(task_object.server_compiler.port) + '/task?id=' + task_object.id)
     except ConnectionError:
-        return JsonResponse({'error': 'Connection error'}, status=404)
+        return send_failure(task_object)
 
     if res.status_code != 200:
         return send_failure(task_object)
