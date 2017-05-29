@@ -8,6 +8,7 @@ from django.core.files.storage import FileSystemStorage
 from django.http import HttpResponse
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
+from requests.exceptions import ConnectionError
 
 from compilio.compiler.models import Compiler, ServerCompiler
 from compilio.compiler.models import Task
@@ -93,11 +94,14 @@ def upload(request):
 
     output_files = server_compiler.compiler.get_output_files(task_object.command)
 
-    res = requests.post(server_compiler.server.ip + ':' + str(server_compiler.port) + '/compile',
-                        data={'task_id': task_id,
-                              'output_files': output_files,
-                              'bash': task_object.server_compiler.compiler.docker_prefix_command + ' ' + task_object.command},
-                        files={'0': open(uploaded_file_url, 'rb')})
+    try:
+        res = requests.post(server_compiler.server.ip + ':' + str(server_compiler.port) + '/compile',
+                            data={'task_id': task_id,
+                                  'output_files': output_files,
+                                  'bash': task_object.server_compiler.compiler.docker_prefix_command + ' ' + task_object.command},
+                            files={'0': open(uploaded_file_url, 'rb')})
+    except ConnectionError:
+        return JsonResponse({'error': 'Connection error'}, status=404)
 
     task_object.status = 'COMPILING'
     task_object.save()
@@ -115,8 +119,11 @@ def task(request):
     if task_object.server_compiler is None:
         return send_failure(task_object)
 
-    res = requests.get(task_object.server_compiler.server.ip + ':'
-                       + str(task_object.server_compiler.port) + '/task?id=' + task_object.id)
+    try:
+        res = requests.get(task_object.server_compiler.server.ip + ':'
+                           + str(task_object.server_compiler.port) + '/task?id=' + task_object.id)
+    except ConnectionError:
+        return JsonResponse({'error': 'Connection error'}, status=404)
 
     if res.status_code != 200:
         return send_failure(task_object)
