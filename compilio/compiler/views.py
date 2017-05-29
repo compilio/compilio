@@ -1,5 +1,5 @@
 import requests
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 
 from .models import Task
 
@@ -40,4 +40,4 @@ def delete_task(request, id):
     res = requests.get(request.META['wsgi.url_scheme'] + '://'
                        + request.META['HTTP_HOST'] + '/compiler/delete_task?task_id=' + id)
     print(res)
-    return tasks(request)
+    return redirect('tasks')

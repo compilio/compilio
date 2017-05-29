@@ -58,7 +58,7 @@
                     </div>
                     <div class="col-md-3">
                         {% if task.status == 'SUCCESS' %}
-                            <a href="{{ task.output_files_path }}" class="button button-info button-small"><i class="fa fa-cloud-download"></i> Download compiled files</a>
+                            <a href="http://{{ request.get_host }}/compiler/get_output_files?task_id={{ task.id }}" class="button button-info button-small"><i class="fa fa-cloud-download"></i> Download compiled files</a>
                         {% else %}
                             &bull;
                         {% endif %}
