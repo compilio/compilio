@@ -29,9 +29,11 @@ before_script:
   - "sh -e /etc/init.d/xvfb start"
   - sleep 3
   - git clone https://github.com/compilio/compilio-runner.git
-  - ./compilio-runner/bin/deploy &
+  - cd compilio-runner
+  - pip install -r requirements.txt
+  - nohup python main.py &
   - RUNNER_PID=$!
-  - sleep 10
+  - cd ../
 
 script:
   - ./manage.py test
