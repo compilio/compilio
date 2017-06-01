@@ -8,7 +8,6 @@ Feature: Basic tasks
 
   Scenario: Start a cat task from the homepage
     Given I am on the / page
-    And I wait for 10 seconds
     And I drop file image.png into input drop-area
     And I click on cat
     And I wait for 2 seconds
