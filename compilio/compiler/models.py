@@ -1,9 +1,10 @@
+import argparse
 import contextlib
 import io
 import os
-import re
 import sys
 import uuid
+
 import requests
 from django.contrib.auth.models import User
 from django.db import models
@@ -32,19 +33,15 @@ class Compiler(models.Model):
 
     def get_input_files(self, command):
         input_files = []
-        matches = re.finditer(self.regex, command)
-        for match_num, match in enumerate(matches):
-            match_num = match_num + 1
-            print("Match {matchNum} was found at {start}-{end}: {match}".format(matchNum=match_num, start=match.start(),
-                                                                                end=match.end(), match=match.group()))
-            input_files.append(match.group())
-            for group_num in range(0, len(match.groups())):
-                group_num = group_num + 1
 
-                print("Group {groupNum} found at {start}-{end}: {group}".format(groupNum=group_num,
-                                                                                start=match.start(group_num),
-                                                                                end=match.end(group_num),
-                                                                                group=match.group(group_num)))
+        parser = argparse.ArgumentParser()
+        parser.add_argument("input_files")
+        arguments = command.split(' ')
+        arguments.pop(0)
+        args = parser.parse_args(arguments)
+
+        input_files.append(args.input_files)
+
         return input_files
 
     def get_output_files(self, command):
