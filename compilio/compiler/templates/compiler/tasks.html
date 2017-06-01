@@ -27,7 +27,7 @@
                 {% else %}
                     <p class="pull-right">
                         <a href="{% url 'logout' %}" class="button"><i class="fa fa-sign-out"></i> Log out</a>
-                        <a href="{% url 'tasks_feed' %}" class="button button-warning"><i class="fa fa-rss"></i> RSS Feed</a>
+                        <a href="{% url 'tasks_feed' request.user.username %}" class="button button-warning"><i class="fa fa-rss"></i> RSS Feed</a>
                     </p>
                     <h3>Hello {{ request.user.username }}!</h3>
                     <p>
