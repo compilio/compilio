@@ -4,7 +4,6 @@ import io
 import os
 import sys
 import uuid
-
 import requests
 from django.contrib.auth.models import User
 from django.db import models
@@ -28,7 +27,8 @@ class Compiler(models.Model):
     icon = models.CharField(max_length=50)
     name = models.CharField(max_length=128)
     output_files_parse_code = models.TextField(null=True)
-    docker_prefix_command = models.CharField(max_length=128, default='')
+
+    remote_command = models.CharField(max_length=255)
 
     def get_input_files(self, command):
         input_files = []
@@ -114,6 +114,8 @@ class Task(models.Model):
     compiler = models.ForeignKey(Compiler, null=True, blank=True)
     server_compiler = models.ForeignKey(ServerCompiler, null=True, blank=True)
 
+    input_file = models.CharField(max_length=255)
+
     @staticmethod
     def __save_output_file(task_id, res):
         filename = Task.get_output_files_path(task_id)
@@ -134,3 +136,6 @@ class Task(models.Model):
     @staticmethod
     def get_output_files_path(task_id):
         return 'uploads/tasks/' + task_id + '/output.zip'
+
+    def get_parsed_remote_command(self):
+        return self.compiler.remote_command.replace('$input', self.input_file)
