@@ -41,7 +41,7 @@
                     <li><a href="https://pypi.python.org/pypi/compilio-cli">Download and install</a> Compilio CLI using PIP.</li>
                     <li>
                         Run the your compilation command prefixed with <span class="label">compilio</span>. For example,
-                        you can run <span class="label">pdflatex</span> by running <span class="label">compilio pdflatex file.tex</span>
+                        you can run <span class="label">pdflatex</span> by running <span class="label">compilio -- pdflatex file.tex</span>
                     </li>
                     <li>
                         Wait until the compilation finishes. The compilation trace is displayed on your shell and the files
@@ -57,8 +57,11 @@
                 <h3>Host's guide</h3>
                 <p>
                     You can deploy your own copy of Compil.io as a regular Django application. You can also use your
-                    own server as a task runner, managed automatically by the main Compil.io instance. More information
-                    coming soon.
+                    own server as a task runner, managed automatically by the main Compil.io instance.
+                </p>
+                <p>
+                    To see how to install your own Compilio instance, see the
+                    <a href="https://github.com/compilio/compilio/blob/master/CONTRIBUTING.md">contribution</a> file.
                 </p>
             </div>
         </div>
