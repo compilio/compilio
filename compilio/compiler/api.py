@@ -55,9 +55,10 @@ def init(request):
     if request.session is not None:
         task.session_id = request.session.session_key
 
-    task.save()
-
     input_files = compiler_object.get_input_files(command)
+    task.input_file = input_files[0]
+
+    task.save()
 
     return JsonResponse({'input_files': input_files, 'task_id': task.id})
 
@@ -94,10 +95,11 @@ def upload(request):
     output_files = server_compiler.compiler.get_output_files(task_object.command)
 
     try:
+        print(task_object.get_parsed_remote_command())
         requests.post(server_compiler.server.ip + ':' + str(server_compiler.port) + '/compile',
                       data={'task_id': task_id,
                             'output_files': output_files,
-                            'bash': task_object.server_compiler.compiler.docker_prefix_command + ' ' + task_object.command},
+                            'bash': task_object.get_parsed_remote_command()},
                       files={'0': open(uploaded_file_url, 'rb')})
     except ConnectionError:
         return send_failure(task_object)
@@ -118,6 +120,11 @@ def task(request):
     if task_object.server_compiler is None:
         return send_failure(task_object)
 
+    if task_object.status == 'SUCCESS':
+        return JsonResponse({"id": task_object.id,
+                             "state": task_object.status,
+                             "output_log": task_object.output_logs})
+
     try:
         res = requests.get(task_object.server_compiler.server.ip + ':'
                            + str(task_object.server_compiler.port) + '/task?id=' + task_object.id)
@@ -135,6 +142,7 @@ def task(request):
     if res_json['state'] == 'SUCCESS':
         task_object.get_save_output_files()
         task_object.status = 'SUCCESS'
+        task_object.output_logs = res_json['output_log']
         task_object.save()
 
     return JsonResponse(res_json)
@@ -178,7 +186,8 @@ def delete_task(request):
     except Task.DoesNotExist:
         return JsonResponse({'error': 'task_id not found'}, status=404)
 
-    if request.session.session_key != task_object.session_id:
+    if (task_object.owners.count() > 0 and not task_object.owners.filter(id=request.user.id).exists()) or (
+                    request.session.session_key is not None and task_object.session_id != request.session.session_key):
         return JsonResponse({'error': 'You dont own this task'}, status=404)
 
     shutil.rmtree('uploads/tasks/' + task_object.id + '/', ignore_errors=True)

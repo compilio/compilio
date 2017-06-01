@@ -1,7 +1,7 @@
+import argparse
 import contextlib
 import io
 import os
-import re
 import sys
 import uuid
 import requests
@@ -26,25 +26,21 @@ class Compiler(models.Model):
     description = models.CharField(max_length=255)
     icon = models.CharField(max_length=50)
     name = models.CharField(max_length=128)
-    regex = models.CharField(max_length=128)
     output_files_parse_code = models.TextField(null=True)
-    docker_prefix_command = models.CharField(max_length=128, default='')
+
+    remote_command = models.CharField(max_length=255)
 
     def get_input_files(self, command):
         input_files = []
-        matches = re.finditer(self.regex, command)
-        for match_num, match in enumerate(matches):
-            match_num = match_num + 1
-            print("Match {matchNum} was found at {start}-{end}: {match}".format(matchNum=match_num, start=match.start(),
-                                                                                end=match.end(), match=match.group()))
-            input_files.append(match.group())
-            for group_num in range(0, len(match.groups())):
-                group_num = group_num + 1
 
-                print("Group {groupNum} found at {start}-{end}: {group}".format(groupNum=group_num,
-                                                                                start=match.start(group_num),
-                                                                                end=match.end(group_num),
-                                                                                group=match.group(group_num)))
+        parser = argparse.ArgumentParser()
+        parser.add_argument("input_files")
+        arguments = command.split(' ')
+        arguments.pop(0)
+        args = parser.parse_args(arguments)
+
+        input_files.append(args.input_files)
+
         return input_files
 
     def get_output_files(self, command):
@@ -86,6 +82,15 @@ class ServerCompiler(models.Model):
     status = models.CharField(max_length=5, choices=COMPILER_STATUS)
 
 
+def generate_id():
+    while True:
+        try:
+            unique_id = uuid.uuid4().hex[:16]
+            Task.objects.get(id=unique_id)
+        except Task.DoesNotExist:
+            return unique_id
+
+
 class Task(models.Model):
     TASK_STATUS = (
         ('PENDING', 'PENDING'),
@@ -94,16 +99,7 @@ class Task(models.Model):
         ('ERROR', 'ERROR'),
     )
 
-    @staticmethod
-    def generate_id():
-        while True:
-            try:
-                unique_id = uuid.uuid4().hex[:16]
-                Task.objects.get(id=unique_id)
-            except Task.DoesNotExist:
-                return unique_id
-
-    id = models.CharField(primary_key=True, max_length=100, blank=True, unique=True, default=lambda: Task.generate_id())
+    id = models.CharField(primary_key=True, max_length=100, blank=True, unique=True, default=generate_id)
 
     command = models.CharField(max_length=128)
     submitted_date = models.DateTimeField(default=timezone.now)
@@ -117,6 +113,10 @@ class Task(models.Model):
     outputs = models.ManyToManyField(Folder, related_name='outputs')
     compiler = models.ForeignKey(Compiler, null=True, blank=True)
     server_compiler = models.ForeignKey(ServerCompiler, null=True, blank=True)
+
+    input_file = models.CharField(max_length=255)
+
+    output_logs = models.TextField(blank=True, null=True)
 
     @staticmethod
     def __save_output_file(task_id, res):
@@ -138,3 +138,6 @@ class Task(models.Model):
     @staticmethod
     def get_output_files_path(task_id):
         return 'uploads/tasks/' + task_id + '/output.zip'
+
+    def get_parsed_remote_command(self):
+        return self.compiler.remote_command.replace('$input', self.input_file)
