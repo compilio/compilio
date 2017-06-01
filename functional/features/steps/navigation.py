@@ -19,7 +19,10 @@ def impl(context, target):
     try:
         element = context.browser.find_element_by_id(target)
     except NoSuchElementException:
-        element = context.browser.find_element_by_link_text(target)
+        try:
+            element = context.browser.find_element_by_link_text(target)
+        except NoSuchElementException:
+            element = context.browser.find_element_by_name(target)
 
     element.click()
 
