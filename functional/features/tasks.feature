@@ -6,6 +6,10 @@ Feature: Basic tasks
   Background:
     Given there are registered runners
 
+  Scenario: I should see the compilers list
+    Given I am on the / page
+    Then I should see "List files"
+
   Scenario: Start a cat task from the homepage
     Given I am on the / page
     And I drop file image.png into input drop-area
