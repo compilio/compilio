@@ -116,6 +116,8 @@ class Task(models.Model):
 
     input_file = models.CharField(max_length=255)
 
+    output_logs = models.TextField(blank=True, null=True)
+
     @staticmethod
     def __save_output_file(task_id, res):
         filename = Task.get_output_files_path(task_id)

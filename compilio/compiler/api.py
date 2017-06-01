@@ -120,6 +120,11 @@ def task(request):
     if task_object.server_compiler is None:
         return send_failure(task_object)
 
+    if task_object.status == 'SUCCESS':
+        return JsonResponse({"id": task_object.id,
+                             "state": task_object.status,
+                             "output_log": task_object.output_logs})
+
     try:
         res = requests.get(task_object.server_compiler.server.ip + ':'
                            + str(task_object.server_compiler.port) + '/task?id=' + task_object.id)
@@ -137,6 +142,7 @@ def task(request):
     if res_json['state'] == 'SUCCESS':
         task_object.get_save_output_files()
         task_object.status = 'SUCCESS'
+        task_object.output_logs = res_json['output_log']
         task_object.save()
 
     return JsonResponse(res_json)
