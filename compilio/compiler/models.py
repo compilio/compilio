@@ -27,7 +27,6 @@ class Compiler(models.Model):
     description = models.CharField(max_length=255)
     icon = models.CharField(max_length=50)
     name = models.CharField(max_length=128)
-    regex = models.CharField(max_length=128)
     output_files_parse_code = models.TextField(null=True)
     docker_prefix_command = models.CharField(max_length=128, default='')
 
@@ -83,6 +82,15 @@ class ServerCompiler(models.Model):
     status = models.CharField(max_length=5, choices=COMPILER_STATUS)
 
 
+def generate_id():
+    while True:
+        try:
+            unique_id = uuid.uuid4().hex[:16]
+            Task.objects.get(id=unique_id)
+        except Task.DoesNotExist:
+            return unique_id
+
+
 class Task(models.Model):
     TASK_STATUS = (
         ('PENDING', 'PENDING'),
@@ -91,16 +99,7 @@ class Task(models.Model):
         ('ERROR', 'ERROR'),
     )
 
-    @staticmethod
-    def generate_id():
-        while True:
-            try:
-                unique_id = uuid.uuid4().hex[:16]
-                Task.objects.get(id=unique_id)
-            except Task.DoesNotExist:
-                return unique_id
-
-    id = models.CharField(primary_key=True, max_length=100, blank=True, unique=True, default=lambda: Task.generate_id())
+    id = models.CharField(primary_key=True, max_length=100, blank=True, unique=True, default=generate_id)
 
     command = models.CharField(max_length=128)
     submitted_date = models.DateTimeField(default=timezone.now)

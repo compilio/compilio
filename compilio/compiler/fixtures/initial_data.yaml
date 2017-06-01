@@ -2,7 +2,6 @@
   pk: 1
   fields:
     name: ls
-    regex: '[a-zA-Z\/\.0-9]+$'
     docker_prefix_command: ''
     title: List files
     description: This command is a POC command
@@ -11,7 +10,6 @@
   pk: 2
   fields:
     name: cat
-    regex: '[a-zA-Z\/\.0-9]+$'
     docker_prefix_command: ''
     title: List contents
     description: This command is a POC command
@@ -20,7 +18,6 @@
   pk: 3
   fields:
     name: pdflatex
-    regex: '[^\s]+\.tex$'
     docker_prefix_command: 'docker run --rm -i --net=none -v "$PWD":/data blang/latex'
     title: PDF LaTeX
     description: Compile .tex files using PDF LaTeX
