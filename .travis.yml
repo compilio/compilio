@@ -26,7 +26,8 @@ before_script:
   - wget https://chromedriver.storage.googleapis.com/2.29/chromedriver_linux64.zip
   - unzip chromedriver_linux64.zip -d chromedriver
   - export PATH=$PATH:$PWD/chromedriver
-  - "sh -e /etc/init.d/xvfb start"
+  - /sbin/start-stop-daemon --start --quiet --pidfile /tmp/custom_xvfb_99.pid --make-pidfile
+    --background --exec /usr/bin/Xvfb -- :99 -ac -screen 0 2560x1700x24
   - sleep 3
   - git clone https://github.com/compilio/compilio-runner.git
   - cd compilio-runner
