@@ -14,12 +14,9 @@ class LatestEntriesFeed(Feed):
     def get_object(self, request, username):
         user = User.objects.get(username=username)
         self.tasks = Task.objects.filter(owners__id=user.id).order_by('id')[:5]
-        return Task.objects.filter(owners__id=user.id).order_by('id')[:5]
 
     def items(self):
-        if self.tasks:
-            return self.tasks
-        return Task.objects.order_by('id')[:5]
+        return self.tasks
 
     def item_title(self, item):
         return item.command
