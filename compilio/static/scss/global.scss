@@ -143,6 +143,10 @@ div.terminal {
 
   span.comment {
     opacity: 0.7;
+
+    &::before {
+      content: '# ';
+    }
   }
 }
 
