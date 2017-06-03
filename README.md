@@ -4,6 +4,8 @@
 
 Compilio will be an online self-hostable modular compiler allowing you to compile files such as PDF LaTeX files and more.
 
+![demoPdfLatex gif](/assets/demo_latex.gif)
+
 Check out the [CONTRIBUTING.md file](https://github.com/compilio/compilio/blob/master/CONTRIBUTING.md) if you want to
 install Compilio locally and contribute to the source code.
 
