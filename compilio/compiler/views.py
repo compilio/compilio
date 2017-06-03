@@ -56,8 +56,8 @@ def delete_task(request, id):
         raise Http404()
 
     # Returning 404 if user is not authorized to avoid him to know the task exists.
-    if request.user.is_authenticated():
-        if task.owners.count() > 0 and not task.owners.filter(id=request.user.id).exists():
+    if task.owners.count() > 0:
+        if not request.user.is_authenticated() or not task.owners.filter(id=request.user.id).exists():
             raise Http404()
     else:
         if request.session.session_key is not None and task.session_id != request.session.session_key:
