@@ -5,6 +5,7 @@
         </p>
         <p v-else>
             <span class="line" v-for="line in trace.split('\n')" v-if="line !== ''">{{ line }}</span>
+            <span v-if="state === 'COMPILING'"><i class="fa fa-refresh fa-spin"></i> Task is still being executed...</span>
         </p>
     </div>
 </template>
