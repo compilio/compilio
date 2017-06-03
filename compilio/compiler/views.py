@@ -21,7 +21,10 @@ def tasks(request):
 
 
 def task(request, id):
-    task = Task.objects.get(id=id)
+    try:
+        task = Task.objects.get(id=id)
+    except Task.DoesNotExist:
+        raise Http404()
 
     if task.owners.count() > 0:
         if not task.owners.filter(id=request.user.id).exists():
