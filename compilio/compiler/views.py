@@ -1,6 +1,7 @@
 import requests
 from django.shortcuts import render, redirect
 from django.http import Http404
+from django.urls import reverse
 
 from .models import Task
 
@@ -47,7 +48,6 @@ def terms(request):
 
 
 def delete_task(request, id):
-    res = requests.get(request.META['wsgi.url_scheme'] + '://'
-                       + request.META['HTTP_HOST'] + '/compiler/delete_task?task_id=' + id)
-    print(res)
+    requests.get(request.build_absolute_uri(reverse('delete_task') + '?task_id=' + id))
+
     return redirect('tasks')
