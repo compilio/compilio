@@ -1,7 +1,6 @@
-import requests
 from django.shortcuts import render, redirect
 from django.http import Http404
-from django.urls import reverse
+import shutil
 
 from .models import Task
 
@@ -48,6 +47,16 @@ def terms(request):
 
 
 def delete_task(request, id):
-    requests.get(request.build_absolute_uri(reverse('delete_task') + '?task_id=' + id))
+    try:
+        task = Task.objects.get(id=id)
+    except Task.DoesNotExist:
+        raise Http404()
+
+    if (task.owners.count() > 0 and not task.owners.filter(id=request.user.id).exists()) or (
+                    request.session.session_key is not None and task.session_id != request.session.session_key):
+        raise Http404()  # User is not allowed but returning a 404 avoids him to know it.
+
+    shutil.rmtree('uploads/tasks/' + task.id + '/', ignore_errors=True)
+    task.delete()
 
     return redirect('tasks')

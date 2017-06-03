@@ -1,6 +1,5 @@
 import mimetypes
 import os
-import shutil
 
 import requests
 from django.core import serializers
@@ -178,20 +177,3 @@ def get_output_files(request):
     path = Task.get_output_files_path(task_object.id)
 
     return serve_file(path, task_object.compiler.name + '_' + task_object.id + '.zip')
-
-
-@csrf_exempt
-def delete_task(request):
-    try:
-        task_object = Task.objects.get(id=request.GET.get('task_id'))
-    except Task.DoesNotExist:
-        return JsonResponse({'error': 'task_id not found'}, status=404)
-
-    if (task_object.owners.count() > 0 and not task_object.owners.filter(id=request.user.id).exists()) or (
-                    request.session.session_key is not None and task_object.session_id != request.session.session_key):
-        return JsonResponse({'error': 'You dont own this task'}, status=404)
-
-    shutil.rmtree('uploads/tasks/' + task_object.id + '/', ignore_errors=True)
-    task_object.delete()
-
-    return JsonResponse({'success': 'success'})
