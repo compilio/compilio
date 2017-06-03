@@ -55,9 +55,13 @@ def delete_task(request, id):
     except Task.DoesNotExist:
         raise Http404()
 
-    if (task.owners.count() > 0 and not task.owners.filter(id=request.user.id).exists()) or (
-                    request.session.session_key is not None and task.session_id != request.session.session_key):
-        raise Http404()  # User is not allowed but returning a 404 avoids him to know it.
+    # Returning 404 if user is not authorized to avoid him to know the task exists.
+    if request.user.is_authenticated():
+        if task.owners.count() > 0 and not task.owners.filter(id=request.user.id).exists():
+            raise Http404()
+    else:
+        if request.session.session_key is not None and task.session_id != request.session.session_key:
+            raise Http404()
 
     shutil.rmtree('uploads/tasks/' + task.id + '/', ignore_errors=True)
     task.delete()
