@@ -9,6 +9,8 @@ Feature: Basic tasks
   Scenario: I should see the compilers list
     Given I am on the / page
     Then I should see "List files"
+    And I should see "List contents"
+    And I should see "PDF LaTeX"
 
   Scenario: Start a cat task from the homepage
     Given I am on the / page
@@ -39,6 +41,6 @@ Feature: Basic tasks
     Given I am on the / page
     And I drop file image.png into input drop-area
     And I click on cat
-    And I wait for 3 seconds
+    And I wait for 5 seconds
     And I go to the /tasks page
-    Then I should see "Listing files"
+    Then I should see "List contents"
