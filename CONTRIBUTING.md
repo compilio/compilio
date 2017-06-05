@@ -8,7 +8,7 @@ any issue you may encounter, or fixing them in pull requests.
 If you want to install the full Compilio stack on your computer, you can follow this short
 tutorial to get your system ready.
 
-**Be sure to also read the README.md file at the root of each project as instruction may be more
+**Be sure to also read the README.md file at the root of each project as instructions may be more
 complete there.**
 
 First, create a *compilio-project* folder on your system. You will need some dependencies (you may use
@@ -21,7 +21,7 @@ older/less dependencies if you install only a subpart of the project):
 
 ### Compilio web platform
 
-The compilio web platform is stored on the current repository. Clone it on your *compilio-project* folder.
+The Compilio web platform is stored on the current repository. Clone it on your *compilio-project* folder.
 
 ```sh
 git clone https://github.com/compilio/compilio.git
@@ -83,11 +83,11 @@ are not suspicious.
 If there is no style on pages, make sure that the webpack server is running and the
 compilation logs does not show anything strange.
 
-**To be able to run compilation tasks, you must install compilio-runner.**
+**To be able to run compilation tasks, you must install Compilio-runner.**
 
-### Compilio runner
+### Compilio-runner
 
-To install compilio runner, you first need to clone the repository on your *compilio-project*
+To install Compilio-runner, you first need to clone the repository on your *compilio-project*
 folder:
 
 ```sh
@@ -103,7 +103,7 @@ pip install -r requirements.txt
 python main.py
 ```
 
-compilio-runner is now operational! Compilio web platform will automatically talk with it when needed.
+Compilio-runner is now operational! Compilio web platform will automatically talk with it when needed.
 The runners are referenced in the fixtures file in your *compilio* directory (under
 *compilio/compiler/fixtures/initial_data.yaml*). The runner is registered to be able to run the *ls*, *cat*
 and *pdflatex* tasks.
@@ -112,12 +112,12 @@ If you want to be able to run *pdflatex* tasks on your computer, you will need t
 *docker pull blang/latex*. Wait for the download. You are now able to compile LaTeX files through your local
 instance.
 
-If tasks are failing, check the compilio-runner logs.
+If tasks are failing, check the Compilio-runner logs.
 
 ### Compilio CLI
 
 Compilio also provides a CLI to be able to compile files directly in the terminal. Commands must be recognized
-by compilio, or the command will be refused.
+by Compilio, or the command will be refused.
 
 You can register new commands in the *initial_data.yaml* file described previously.
 

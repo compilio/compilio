@@ -1,6 +1,5 @@
 import mimetypes
 import os
-import shutil
 
 import requests
 from django.core import serializers
@@ -120,10 +119,12 @@ def task(request):
     if task_object.server_compiler is None:
         return send_failure(task_object)
 
-    if task_object.status == 'SUCCESS':
-        return JsonResponse({"id": task_object.id,
-                             "state": task_object.status,
-                             "output_log": task_object.output_logs})
+    if task_object.status == 'SUCCESS' or task_object.status == 'FAILED':
+        return JsonResponse({
+            'id': task_object.id,
+            'state': task_object.status,
+            'output_log': task_object.output_logs
+        })
 
     try:
         res = requests.get(task_object.server_compiler.server.ip + ':'
@@ -136,14 +137,13 @@ def task(request):
 
     res_json = res.json()
 
-    if os.path.isdir('uploads/tasks/' + task_object.id + '/output_files'):
-        return JsonResponse(res_json)
+    task_object.status = res_json['state']
+    task_object.output_logs = res_json['output_log']
 
     if res_json['state'] == 'SUCCESS':
         task_object.get_save_output_files()
-        task_object.status = 'SUCCESS'
-        task_object.output_logs = res_json['output_log']
-        task_object.save()
+
+    task_object.save()
 
     return JsonResponse(res_json)
 
@@ -177,20 +177,3 @@ def get_output_files(request):
     path = Task.get_output_files_path(task_object.id)
 
     return serve_file(path, task_object.compiler.name + '_' + task_object.id + '.zip')
-
-
-@csrf_exempt
-def delete_task(request):
-    try:
-        task_object = Task.objects.get(id=request.GET.get('task_id'))
-    except Task.DoesNotExist:
-        return JsonResponse({'error': 'task_id not found'}, status=404)
-
-    if (task_object.owners.count() > 0 and not task_object.owners.filter(id=request.user.id).exists()) or (
-                    request.session.session_key is not None and task_object.session_id != request.session.session_key):
-        return JsonResponse({'error': 'You dont own this task'}, status=404)
-
-    shutil.rmtree('uploads/tasks/' + task_object.id + '/', ignore_errors=True)
-    task_object.delete()
-
-    return JsonResponse({'success': 'success'})

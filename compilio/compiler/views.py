@@ -1,6 +1,6 @@
-import requests
 from django.shortcuts import render, redirect
 from django.http import Http404
+import shutil
 
 from .models import Task
 
@@ -21,7 +21,10 @@ def tasks(request):
 
 
 def task(request, id):
-    task = Task.objects.get(id=id)
+    try:
+        task = Task.objects.get(id=id)
+    except Task.DoesNotExist:
+        raise Http404()
 
     if task.owners.count() > 0:
         if not task.owners.filter(id=request.user.id).exists():
@@ -47,7 +50,20 @@ def terms(request):
 
 
 def delete_task(request, id):
-    res = requests.get(request.META['wsgi.url_scheme'] + '://'
-                       + request.META['HTTP_HOST'] + '/compiler/delete_task?task_id=' + id)
-    print(res)
+    try:
+        task = Task.objects.get(id=id)
+    except Task.DoesNotExist:
+        raise Http404()
+
+    # Returning 404 if user is not authorized to avoid him to know the task exists.
+    if task.owners.count() > 0:
+        if not request.user.is_authenticated() or not task.owners.filter(id=request.user.id).exists():
+            raise Http404()
+    else:
+        if request.session.session_key is not None and task.session_id != request.session.session_key:
+            raise Http404()
+
+    shutil.rmtree('uploads/tasks/' + task.id + '/', ignore_errors=True)
+    task.delete()
+
     return redirect('tasks')

@@ -24,7 +24,7 @@
             <div class="col-lg-12">
                 <p class="pull-right">
                     {% if task.status == 'SUCCESS' %}
-                        <a href="http://{{ request.get_host }}/compiler/get_output_files?task_id={{ task.id }}" class="button button-info"><i class="fa fa-cloud-download"></i> Download compiled files</a>
+                        <a href="{% url 'get_output_files' %}?task_id={{ task.id }}" class="button button-info"><i class="fa fa-cloud-download"></i> Download compiled files</a>
                     {% endif %}
                     <a href="{% url 'tasks' %}" class="button"><i class="fa fa-list"></i> My tasks</a>
                 </p>
@@ -42,7 +42,7 @@
                             This task is not linked to your account. It may be claimed by anyone.
                             <a class="button button-small button-warning" href="{% url 'login' %}">Log in</a> or
                             <a class="button button-small button-warning" href="{% url 'register' %}">register</a>
-                            and get back to this page to save this task and prevent anyone but you to see it.
+                            and go back to this page to save this task and prevent anyone but you to see it.
                         </span>
                     {% else %}
                         <span class="success">

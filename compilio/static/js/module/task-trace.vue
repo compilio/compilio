@@ -1,10 +1,18 @@
 <template>
     <div class="terminal">
         <p v-if="trace === ''">
-            <span class="line"><i class="fa fa-refresh fa-spin"></i> Waiting for execution trace...</span>
+            <span class="line">
+                <span class="comment"><i class="fa fa-refresh fa-spin"></i> Waiting for execution trace...</span>
+            </span>
         </p>
         <p v-else>
             <span class="line" v-for="line in trace.split('\n')" v-if="line !== ''">{{ line }}</span>
+            <span class="line" v-if="state === 'COMPILING'">
+                <span class="comment"><i class="fa fa-refresh fa-spin"></i> Task is still being executed...</span>
+            </span>
+            <span class="line" v-else>
+                <span class="comment">Compilation ended.</span>
+            </span>
         </p>
     </div>
 </template>
