@@ -4,6 +4,7 @@ from django.core import management
 
 def before_all(context):
     context.browser = webdriver.Chrome()
+    context.browser.maximize_window()
 
 
 def before_scenario(context, scenario):

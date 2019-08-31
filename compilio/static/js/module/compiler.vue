@@ -1,6 +1,8 @@
 <template>
   <div class="col-sm-4">
-    <button type="submit" :name="compiler.name" @click="launch" :title="compiler.description"><i :class="'fa fa-' + compiler.icon"></i> {{ compiler.title }}</button>
+    <button type="submit" @click="launch" :name="compiler.name" :title="compiler.description">
+      <i :class="'fa fa-' + compiler.icon"></i> {{ compiler.title }}
+    </button>
   </div>
 </template>
 
